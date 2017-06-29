@@ -44,8 +44,8 @@
         <nav id="topnav" role="navigation">
           <div class="menu-toggle">Menu</div>  
           <ul class="srt-menu" id="menu-main-navigation">
-              <li class="current"><a href="#">login</a></li>
-              <li><a href="#">sign up</a></li>
+              <li><a href="#">login</a></li>
+              <li class="current"><a href="#">sign up</a></li>
               <li><a href="#">contact us</a>
               <li><a href="#">faq</a>
           </ul>
