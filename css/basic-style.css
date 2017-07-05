@@ -48,6 +48,10 @@ a:hover{ text-decoration:none;}
 	width: 92%; 
 	margin: 0 auto;
 }
+.hero-wrapper{
+	width: 100%;
+	margin: 0 auto;
+}
 header{ 
 	padding:15px 0;
 }
@@ -57,10 +61,6 @@ header{
 	
 #hero,
 #page-header{
-	background:#f3f3f3;
-	border-top:1px solid #e2e2e2;
-	border-bottom:1px solid #e2e2e2;
-	padding:20px 0;
 }
 #hero h1{ 
 	line-height:1.2em;
@@ -81,6 +81,10 @@ p{ margin:0 0 1.5em;}
 /* RESPONSIVE IMAGES */
 img{ max-width:100%; height:auto;}
 
+.img-wrapper {
+    max-width: 1500px;
+    margin: auto;
+}
 
 /*MAIN MENU*/
 .menu-toggle{
@@ -168,8 +172,6 @@ img{ max-width:100%; height:auto;}
 	/*positioning and padding*/
 	position: relative;
     min-height: 1px;
-    padding-left: 15px;
-    padding-right: 15px;
 }
 
 /*FOOTER*/
@@ -227,6 +229,21 @@ a.buttonlink:hover{
 
 
 
+/* additional styling for SG
+*/
+
+.hero-msg-1, .hero-msg-2 {
+    color: #fff;
+    position: absolute;
+    margin: 5% 10%;
+}
+
+.hero-msg-1, .hero-msg-2 {
+    display: none;
+}
+
+
+
 /* Contain floats*/ 
 .clearfix:before,
 .clearfix:after,
@@ -247,15 +264,27 @@ LARGER MOBILE DEVICES
 This is for mobile devices with a bit larger screens.
 */
 @media only screen and (min-width: 481px) {
-#banner{
-	float:left;
-	text-align:left;
-	margin-bottom:-20px;/*this depends on the height of the logo*/
-}
-.menu-toggle{/*make menu float right, instead of sitting under the logo*/
-	margin-top:10px; /*this depends on the height of the logo*/
-	float:right;
-}
+    #banner{
+        float:left;
+        text-align:left;
+        margin-bottom:-20px;/*this depends on the height of the logo*/
+    }
+    .menu-toggle{/*make menu float right, instead of sitting under the logo*/
+        margin-top:10px; /*this depends on the height of the logo*/
+        float:right;
+    }
+
+    .hero-msg-1, .hero-msg-2 {
+        display: block;
+        font-size: 21px
+    }
+    .hero-msg-1 {
+        top: 5%;
+    }
+    .hero-msg-2 {
+        top: 13%;
+        left: 10%;
+    }
 
 } 
 
@@ -266,198 +295,212 @@ But I think that some more breathing space is good:)
 */
 @media only screen and (min-width: 920px) {
 
-.wrapper{
-	max-width: 1200px; 
-	margin: .75em auto;
-}
+    .wrapper{
+        max-width: 1200px;
+        margin: .75em auto;
+    }
+    .hero-wrapper{
+        max-width: 1550px;
+        margin: .75em auto;
+    }
 
-#banner{ 
-	float:left; 
-	text-align:left;
-	margin-bottom:0px;
-}
-header{
-	padding:0;
-}
-#content {  
-	float:left;
-	width:65%;
-}
-#content.wide-content{
-	float:none;
-	width:100%;
-}
+    #banner{
+        float:left;
+        text-align:left;
+        margin-bottom:0px;
+    }
+    header{
+        padding:0;
+    }
+    #content {
+        float:left;
+        width:65%;
+    }
+    #content.wide-content{
+        float:none;
+        width:100%;
+    }
+    .hero-msg-1, .hero-msg-2 {
+        font-size: 38px
+    }
+    .hero-msg-1 {
+        top: 5%;
+    }
+    .hero-msg-2 {
+        top: 12%;
+        left: 10%;
+    }
 
-.flexslider{
-display:block;
-/*demo 1 slider theme*/	
-margin: 0 0 60px; 
-background: #fff; 
-border: 4px solid #fff; 
--webkit-border-radius: 4px; 
--moz-border-radius: 4px; 
--o-border-radius: 4px; 
-border-radius: 4px; 
-box-shadow: 0 1px 4px rgba(0,0,0,.2); 
--webkit-box-shadow: 0 1px 4px rgba(0,0,0,.2); 
--moz-box-shadow: 0 1px 4px rgba(0,0,0,.2); 
--o-box-shadow: 0 1px 4px rgba(0,0,0,.2);
-}
-
-
-aside { 
-	float:right;
-	width:30%;
-}
-
-/*** MAIN MENU - ESSENTIAL STYLES ***/
-.menu-toggle{display:none;}
-#menu-main-navigation{display:block;}
-
-.srt-menu, .srt-menu * {
-	margin:			0;
-	padding:		0;
-	list-style:		none;
-}
-.srt-menu ul {
-	position:		absolute;
-	display:none;
-	width:			12em; /* left offset of submenus need to match (see below) */
-}
-.srt-menu ul li {
-	width:			100%;
-}
-.srt-menu li:hover {
-	visibility:		inherit; /* fixes IE7 'sticky bug' */
-}
-.srt-menu li {
-	float:			left;
-	position:		relative;
-	margin-left:1px;
-}
-.srt-menu li li {
-	margin-left:0px;
-}
-.srt-menu a {
-	display:		block;
-	position:		relative;
-}
-.srt-menu li:hover ul,
-.srt-menu li.sfHover ul {
-	display:block;
-	left:			0;
-	top:			45px; /* match top ul list item height */
-	z-index:		99;
-	-webkit-box-shadow:  2px 3px 2px 0px rgba(00, 00, 00, .3);
-    box-shadow:  2px 3px 2px 0px rgba(00, 00, 00, .3);
-}
-ul.srt-menu li:hover li ul,
-ul.srt-menu li.sfHover li ul {
-	top:			-999em;
-}
-ul.srt-menu li li:hover ul,
-ul.srt-menu li li.sfHover ul {
-	left:			12em; /* match ul width */
-	top:			0;
-}
-ul.srt-menu li li:hover li ul,
-ul.srt-menu li li.sfHover li ul {
-	top:			-999em;
-}
-ul.srt-menu li li li:hover ul,
-ul.srt-menu li li li.sfHover ul {
-	left:			10em; /* match ul width */
-	top:			0;
-}
-
-/*** DEMO1 SKIN ***/
-#topnav, .srt-menu {
-	float:left;
-	margin: .35em 0 0 0;
-}
-.srt-menu a {
-	text-decoration:none;
-}
-.srt-menu li a {
-	background:#fff;
-	margin:0; 
-	padding:10px 20px;
-	height:45px;
-}
-.srt-menu a, .srt-menu a:visited  { /* visited pseudo selector so IE6 applies text colour*/
-	color:			#0099ff;	
-}
-.srt-menu li li a {
-		border-top:		1px solid rgba(255,255,255,.2);
-		background:		#333; /*fallback for old IE*/
-		background:rgba(0,0,0,.6);
-		color:	#fff;
-		padding-left:20px;
-		height:auto;
-}
-.srt-menu li li a:visited{color:#fff;}
-.srt-menu li li li a,
-.srt-menu li.current * li a{
-	padding-left:20px;
-	background:rgba(0,0,0,.6);
-}
-
-.srt-menu li:hover > a,
-.srt-menu li.current a{ 
-	color:#fff;
-	background:#0099ff;
-}
-.srt-menu li li:hover > a{
-	color:#fff;
-	background:#0099ff;
-}
+    .flexslider{
+    display:block;
+    /*demo 1 slider theme*/
+    margin: 0 0 60px;
+    background: #fff;
+    border: 4px solid #fff;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.2);
+    -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 4px rgba(0,0,0,.2);
+    -o-box-shadow: 0 1px 4px rgba(0,0,0,.2);
+    }
 
 
+    aside {
+        float:right;
+        width:30%;
+    }
 
-/*GRID*/
-/*
- & Columns : 12 
+    /*** MAIN MENU - ESSENTIAL STYLES ***/
+    .menu-toggle{display:none;}
+    #menu-main-navigation{display:block;}
 
- */
- .row{
-	 margin-left: -15px;
-     margin-right: -15px;
-}
- 
-.grid_1 { width: 8.33333333%; }
-.grid_2 { width: 16.66666667%; }
-.grid_3 { width: 25%; }
-.grid_4 { width: 33.33333333%; }
-.grid_5 { width: 41.66666667%; }
-.grid_6 { width: 50%; }
-.grid_7 { width: 58.33333333%; }
-.grid_8 { width: 66.66666667%; }
-.grid_9 { width: 75%; }
-.grid_10 { width: 83.33333333%; }
-.grid_11 { width: 91.66666667%; }
-.grid_12 { width: 100%; }
+    .srt-menu, .srt-menu * {
+        margin:			0;
+        padding:		0;
+        list-style:		none;
+    }
+    .srt-menu ul {
+        position:		absolute;
+        display:none;
+        width:			12em; /* left offset of submenus need to match (see below) */
+    }
+    .srt-menu ul li {
+        width:			100%;
+    }
+    .srt-menu li:hover {
+        visibility:		inherit; /* fixes IE7 'sticky bug' */
+    }
+    .srt-menu li {
+        float:			left;
+        position:		relative;
+        margin-left:1px;
+    }
+    .srt-menu li li {
+        margin-left:0px;
+    }
+    .srt-menu a {
+        display:		block;
+        position:		relative;
+    }
+    .srt-menu li:hover ul,
+    .srt-menu li.sfHover ul {
+        display:block;
+        left:			0;
+        top:			45px; /* match top ul list item height */
+        z-index:		99;
+        -webkit-box-shadow:  2px 3px 2px 0px rgba(00, 00, 00, .3);
+        box-shadow:  2px 3px 2px 0px rgba(00, 00, 00, .3);
+    }
+    ul.srt-menu li:hover li ul,
+    ul.srt-menu li.sfHover li ul {
+        top:			-999em;
+    }
+    ul.srt-menu li li:hover ul,
+    ul.srt-menu li li.sfHover ul {
+        left:			12em; /* match ul width */
+        top:			0;
+    }
+    ul.srt-menu li li:hover li ul,
+    ul.srt-menu li li.sfHover li ul {
+        top:			-999em;
+    }
+    ul.srt-menu li li li:hover ul,
+    ul.srt-menu li li li.sfHover ul {
+        left:			10em; /* match ul width */
+        top:			0;
+    }
 
-.grid_1,
-.grid_2,
-.grid_3,
-.grid_4,
-.grid_5,
-.grid_6,
-.grid_7,
-.grid_8,
-.grid_9,
-.grid_10,
-.grid_11,
-.grid_12 {
-	float: left;
-	display: block;
-}
+    /*** DEMO1 SKIN ***/
+    #topnav, .srt-menu {
+        float:left;
+        margin: .35em 0 0 0;
+    }
+    .srt-menu a {
+        text-decoration:none;
+    }
+    .srt-menu li a {
+        background:#fff;
+        margin:0;
+        padding:10px 20px;
+        height:45px;
+    }
+    .srt-menu a, .srt-menu a:visited  { /* visited pseudo selector so IE6 applies text colour*/
+        color:			#0099ff;
+    }
+    .srt-menu li li a {
+            border-top:		1px solid rgba(255,255,255,.2);
+            background:		#333; /*fallback for old IE*/
+            background:rgba(0,0,0,.6);
+            color:	#fff;
+            padding-left:20px;
+            height:auto;
+    }
+    .srt-menu li li a:visited{color:#fff;}
+    .srt-menu li li li a,
+    .srt-menu li.current * li a{
+        padding-left:20px;
+        background:rgba(0,0,0,.6);
+    }
 
-.rightfloat{float:right;}
-/* @notation inspired by tinyGrid, .row and percentage by Twitter Bootstrap
- */
- 
-#hero [class*="grid_"] { margin-bottom:-20px;}
+    .srt-menu li:hover > a,
+    .srt-menu li.current a{
+        color:#fff;
+        background:#0099ff;
+    }
+    .srt-menu li li:hover > a{
+        color:#fff;
+        background:#0099ff;
+    }
+
+
+
+    /*GRID*/
+    /*
+     & Columns : 12
+
+     */
+     .row{
+         margin-left: -15px;
+         margin-right: -15px;
+    }
+
+    .grid_1 { width: 8.33333333%; }
+    .grid_2 { width: 16.66666667%; }
+    .grid_3 { width: 25%; }
+    .grid_4 { width: 33.33333333%; }
+    .grid_5 { width: 41.66666667%; }
+    .grid_6 { width: 50%; }
+    .grid_7 { width: 58.33333333%; }
+    .grid_8 { width: 66.66666667%; }
+    .grid_9 { width: 75%; }
+    .grid_10 { width: 83.33333333%; }
+    .grid_11 { width: 91.66666667%; }
+    .grid_12 { width: 100%; }
+
+    .grid_1,
+    .grid_2,
+    .grid_3,
+    .grid_4,
+    .grid_5,
+    .grid_6,
+    .grid_7,
+    .grid_8,
+    .grid_9,
+    .grid_10,
+    .grid_11,
+    .grid_12 {
+        float: left;
+        display: block;
+    }
+
+    .rightfloat{float:right;}
+    /* @notation inspired by tinyGrid, .row and percentage by Twitter Bootstrap
+     */
+
+    #hero [class*="grid_"] { margin-bottom:-20px;}
 
 }
 

@@ -32,42 +32,20 @@
 </head>
 
 <body id="home">
-  
-<!-- header area -->
-    <header class="wrapper clearfix">
-		       
-        <div id="banner">        
-        	<div id="logo"><a href="/scoutinggoals"><img width="50%" src="images/logoidea1.jpg" alt="logo"></a></div>
-        </div>
-        
-        <!-- main navigation -->
-        <nav id="topnav" role="navigation">
-          <div class="menu-toggle">Menu</div>  
-          <ul class="srt-menu" id="menu-main-navigation">
-              <li><a href="#">login</a></li>
-              <li class="current"><a href="#">sign up</a></li>
-              <li><a href="#">contact us</a>
-              <li><a href="#">faq</a>
-          </ul>
-		</nav><!-- end main navigation -->
-  
-    </header><!-- end header -->
- 
- 
+    <?php include 'header.php';?>
 <!-- hero area (the grey one with a slider -->
     <section id="hero" class="clearfix">    
         <!-- responsive FlexSlider image slideshow -->
-        <div class="wrapper">
+        <div class="hero-wrapper">
            <div class="row">
                 <div class="grid_12">
-                      <div class="flexslider">
-                          <ul class="slides">
-                              <li>
-                                  <img src="images/night_camp.jpg" />
-                              </li>
-                          </ul>
-                      </div><!-- FlexSlider -->
-                </div><!-- end grid_7 -->
+                    <h1 class="hero-msg-1">Let us help you</h1>
+                    <h1 class="hero-msg-2">advance your organization</h1>
+                    <div id="login">
+                        <?php include 'login/index.php';?>
+                    </div>
+                    <img width="100%" src="images/night_camp.jpg" />
+                </div><!-- end grid_12 -->
             </div><!-- end row -->
         </div><!-- end wrapper -->
     </section><!-- end hero area -->
@@ -104,16 +82,7 @@
   </div><!-- #end div #main .wrapper -->
 
 
-<!-- footer area -->    
-<footer>
-	<div id="colophon" class="wrapper clearfix">
-    	footer stuff
-    </div>
-    
-<!--You can NOT remove this attribution statement from any page, unless you get the permission from prowebdesign.ro--><div id="attribution" class="wrapper clearfix" style="color:#666; font-size:11px;">Site built with <a href="http://www.prowebdesign.ro/simple-responsive-template/" target="_blank" title="Simple Responsive Template is a free software by www.prowebdesign.ro" style="color:#777;">Simple Responsive Template</a></div><!--end attribution-->
-    
-</footer><!-- #end footer area --> 
-
+<?php include 'footer.php';?>
 
 <!-- jQuery -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
