@@ -29,14 +29,20 @@ h1, h2, h3, h4, h5, h6{
 	padding:0;
 } 
 
+#main {
+    display: none;
+}
 
 /* links */
 a,
 a:visited,
 a:active,
-a:hover{color:#0099ff;}
+a:hover{color:#398789;}
 a:hover{ text-decoration:none;}
 
+li {
+    list-style-type: none;
+}
 
 /* Box sizing. Awesome thing. Read about it here: http://www.w3schools.com/cssref/css3_pr_box-sizing.asp */
 *{	box-sizing:border-box;
@@ -52,6 +58,12 @@ a:hover{ text-decoration:none;}
 	width: 100%;
 	margin: 0 auto;
 }
+
+
+.hero-wrapper .hero-img {
+    display: none;
+}
+
 header{ 
 	padding:15px 0;
 }
@@ -98,7 +110,7 @@ img{ max-width:100%; height:auto;}
 	font-size:20px;
 }
 .menu-toggle.toggled-on{
-	background:#0099ff;
+	background:#398789;
 }
 .srt-menu{
 	display:none;
@@ -118,11 +130,11 @@ img{ max-width:100%; height:auto;}
 	background:#dadada;
 	display:block;
 	margin:1px 0; 
-	padding:10px;
+	padding: 10px 30px;
 	text-decoration:none;
 }
 .srt-menu li a:hover{
-	background:#0099ff;
+	background:#398789;
 	color:#fff;
 }
 .srt-menu li li a {
@@ -151,7 +163,7 @@ img{ max-width:100%; height:auto;}
 }
 #secondary-navigation ul li a:hover,
 #secondary-navigation ul li.current a{
-	background:#0099ff;
+	background:#398789;
 	color:#fff;
 }
 
@@ -206,7 +218,7 @@ footer ul{
 }
 
 a.buttonlink{ 
-	background:#0099ff; 
+	background:#398789;
 	border-radius:7px; 
 	color:#fff;
 	display:block;
@@ -264,6 +276,9 @@ LARGER MOBILE DEVICES
 This is for mobile devices with a bit larger screens.
 */
 @media only screen and (min-width: 481px) {
+    .hero-wrapper .hero-img {
+        display: block;
+    }
     #banner{
         float:left;
         text-align:left;
@@ -297,7 +312,6 @@ But I think that some more breathing space is good:)
 
     .wrapper{
         max-width: 1200px;
-        margin: .75em auto;
     }
     .hero-wrapper{
         max-width: 1550px;
@@ -413,22 +427,27 @@ But I think that some more breathing space is good:)
         top:			0;
     }
 
+    #topnav {
+        font-size: 18px;
+        padding: 5px;
+        background-color: #398789;
+        width: 100%;
+    }
+
     /*** DEMO1 SKIN ***/
     #topnav, .srt-menu {
         float:left;
-        margin: .35em 0 0 0;
     }
     .srt-menu a {
         text-decoration:none;
     }
     .srt-menu li a {
-        background:#fff;
+        background:none;
+        color: #fff;
         margin:0;
-        padding:10px 20px;
-        height:45px;
     }
     .srt-menu a, .srt-menu a:visited  { /* visited pseudo selector so IE6 applies text colour*/
-        color:			#0099ff;
+        color:			#fff;
     }
     .srt-menu li li a {
             border-top:		1px solid rgba(255,255,255,.2);
@@ -448,11 +467,11 @@ But I think that some more breathing space is good:)
     .srt-menu li:hover > a,
     .srt-menu li.current a{
         color:#fff;
-        background:#0099ff;
+        background:#398789;
     }
     .srt-menu li li:hover > a{
         color:#fff;
-        background:#0099ff;
+        background:#398789;
     }
 
 

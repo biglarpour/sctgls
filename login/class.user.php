@@ -26,16 +26,17 @@ class USER
 		return $stmt;
 	}
 	
-	public function register($fname,$lname,$bdate,$uname,$email,$upass,$code)
+	public function register($fname,$lname,$bdate,$role,$uname,$email,$upass,$code)
 	{
 		try
 		{							
 			$password = md5($upass);
-			$stmt = $this->conn->prepare("INSERT INTO tbl_users(firstname,lastname,birthdate,userName,userEmail,userPass,tokenCode)
-			                                             VALUES(:first_name,:last_name,:birthdate,:user_name, :user_mail, :user_pass, :active_code)");
+			$stmt = $this->conn->prepare("INSERT INTO tbl_users(firstname,lastname,birthdate,role_type,userName,userEmail,userPass,tokenCode)
+			                                             VALUES(:first_name,:last_name,:birthdate,:role,:user_name, :user_mail, :user_pass, :active_code)");
 			$stmt->bindparam(":first_name",$fname);
 			$stmt->bindparam(":last_name",$lname);
 			$stmt->bindparam(":birthdate",$bdate);
+			$stmt->bindparam(":role",$role);
 			$stmt->bindparam(":user_name",$uname);
 			$stmt->bindparam(":user_mail",$email);
 			$stmt->bindparam(":user_pass",$password);
@@ -68,19 +69,19 @@ class USER
 					}
 					else
 					{
-						header("Location: index.php?error");
+						$this->redirect("?error");
 						exit;
 					}
 				}
 				else
 				{
-					header("Location: index.php?inactive");
+					$this->redirect("?inactive");
 					exit;
 				}	
 			}
 			else
 			{
-				header("Location: index.php?error");
+				$this->redirect("?error");
 				exit;
 			}		
 		}
@@ -101,7 +102,9 @@ class USER
 	
 	public function redirect($url)
 	{
-		header("Location: $url");
+	echo '<script type="text/javascript">
+			   window.location = "' .$url. '"
+		  </script>';
 	}
 	
 	public function logout()

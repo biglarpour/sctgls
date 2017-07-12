@@ -1,23 +1,29 @@
-/** Login Page **/
-#login {
-    position: absolute;
+/** log-in Page **/
+#log-in, #sign-up {
+    position: block;
 }
 
-#login .form-signin {
-        margin: auto;
+
+#log-in .form-signin,
+#sign-up .form-signin {
+        color: #398789;
+        margin: 5%;
 }
 
 @media only screen and (min-width: 481px) {
-    #login {
-        padding-top: 40px;
-        padding-bottom: 40px;
+
+    #sign-up {
+        padding-top: 20px;
+        padding-bottom: 20px;
         position: absolute;
-        color: #fff;
+        width: 100%;
     }
-    #login .form-signin {
-        max-width: 300px;
-        padding: 19px 29px 29px;
-        margin: 10% 15%;
+    #sign-up .form-signin {
+        color: #FFF;
+        max-width: 400px;
+        padding: 0px;
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+        margin: auto;
         -webkit-border-radius: 5px;
            -moz-border-radius: 5px;
                 border-radius: 5px;
@@ -25,13 +31,30 @@
            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
                 box-shadow: 0 1px 2px rgba(0,0,0,.05);
     }
-    #login .form-signin .form-signin-heading,
-    #login .form-signin .checkbox {
+    #log-in {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        position: absolute;
+    }
+    #log-in .form-signin {
+        color: #fff;
+        max-width: 300px;
+        padding: 19px 29px 29px;
+        margin: 15%;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    }
+    #log-in .form-signin .form-signin-heading,
+    #log-in .form-signin .checkbox {
         margin-bottom: 10px;
     }
-    #login .form-signin input[type="text"],
-    #login .form-signin input[type="password"],
-    #login .form-signin input[type="email"] {
+    #log-in .form-signin input[type="text"],
+    #log-in .form-signin input[type="password"],
+    #log-in .form-signin input[type="email"] {
         font-size: 16px;
         height: auto;
         margin-bottom: 15px;
@@ -209,6 +232,9 @@
     }
 
     .fgetpass {
-        margin-left: 10px;
+        margin-top: 10px;
+    }
+    .fgetpass a{
+        color: #fff !important;
     }
 }

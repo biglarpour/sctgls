@@ -1,11 +1,11 @@
 <?php
 session_start();
-require_once 'class.user.php';
+require_once 'login/class.user.php';
 $user_login = new USER();
 
 if($user_login->is_logged_in()!="")
 {
-	$user_login->redirect('home.php');
+	$user_login->redirect('/scoutinggoals/login/home.php');
 }
 
 if(isset($_POST['btn-login']))
@@ -15,7 +15,7 @@ if(isset($_POST['btn-login']))
 	
 	if($user_login->login($email,$upass))
 	{
-		$user_login->redirect('home.php');
+		$user_login->redirect('/scoutinggoals/login/home.php');
 	}
 }
 ?>
@@ -29,7 +29,7 @@ if(isset($_POST['btn-login']))
 <!--[if lt IE 9]>
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
-<script src="login/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+<script src="js/libs/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 </head>
 <div class="container">
     <?php
@@ -58,7 +58,9 @@ if(isset($_POST['btn-login']))
     <input type="email" class="input-block-level" placeholder="Email address" name="txtemail" required />
     <input type="password" class="input-block-level" placeholder="Password" name="txtupass" required />
     <button class="btn btn-large btn-primary" type="submit" name="btn-login">log in</button>
-    <a class="fgetpass" href="fpass.php">Lost your Password? </a>
+    <li class="fgetpass">
+        <a href="login/fpass.php">Lost your Password? </a>
+    </li>
   </form>
 
 </div> <!-- /container -->

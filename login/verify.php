@@ -4,7 +4,7 @@ $user = new USER();
 
 if(empty($_GET['id']) && empty($_GET['code']))
 {
-	$user->redirect('index.php');
+	$user->redirect('/scoutinggoals');
 }
 
 if(isset($_GET['id']) && isset($_GET['code']))
@@ -30,7 +30,7 @@ if(isset($_GET['id']) && isset($_GET['code']))
 			$msg = "
 		           <div class='alert alert-success'>
 				   <button class='close' data-dismiss='alert'>&times;</button>
-					  <strong>WoW !</strong>  Your Account is Now Activated : <a href='index.php'>Login here</a>
+					  <strong>WoW !</strong>  Your Account is Now Activated : <a href='/scountinggoals'>Login here</a>
 			       </div>
 			       ";	
 		}
@@ -39,7 +39,7 @@ if(isset($_GET['id']) && isset($_GET['code']))
 			$msg = "
 		           <div class='alert alert-error'>
 				   <button class='close' data-dismiss='alert'>&times;</button>
-					  <strong>sorry !</strong>  Your Account is allready Activated : <a href='index.php'>Login here</a>
+					  <strong>sorry !</strong>  Your Account is allready Activated : <a href='/scountinggoals'>Login here</a>
 			       </div>
 			       ";
 		}
@@ -49,7 +49,7 @@ if(isset($_GET['id']) && isset($_GET['code']))
 		$msg = "
 		       <div class='alert alert-error'>
 			   <button class='close' data-dismiss='alert'>&times;</button>
-			   <strong>sorry !</strong>  No Account Found : <a href='signup.php'>Signup here</a>
+			   <strong>sorry !</strong>  No Account Found : <a href='/scountinggoals/#signup'>Signup here</a>
 			   </div>
 			   ";
 	}	

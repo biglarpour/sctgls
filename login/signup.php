@@ -15,6 +15,7 @@ if(isset($_POST['btn-signup']))
 	$firstn = trim($_POST['txtfname']);
 	$lastn = trim($_POST['txtlname']);
 	$bdate = trim($_POST['birthdate']);
+	$role = trim($_POST['roles']);
 	$uname = trim($_POST['txtuname']);
 	$email = trim($_POST['txtemail']);
 	$upass = trim($_POST['txtpass']);
@@ -35,7 +36,7 @@ if(isset($_POST['btn-signup']))
 	}
 	else
 	{
-		if($reg_user->register($firstn,$lastn,$bdate,$uname,$email,$upass,$code))
+		if($reg_user->register($firstn,$lastn,$bdate,$role,$uname,$email,$upass,$code))
 		{			
 			$id = $reg_user->lasdID();		
 			$key = base64_encode($id);
@@ -47,7 +48,7 @@ if(isset($_POST['btn-signup']))
 						Welcome to Scounting Goals!<br/>
 						To complete your registration  please , just click following link<br/>
 						<br /><br />
-						<a href='https://biglarpour.com/scountinggoals/signup/verify.php?id=$id&code=$code'>Click HERE to Activate :)</a>
+						<a href='https://biglarpour.com/scountinggoals/login/verify.php?id=$id&code=$code'>Click HERE to Activate :)</a>
 						<br /><br />
 						Thanks,";
 						
@@ -74,33 +75,36 @@ if(isset($_POST['btn-signup']))
   <head>
     <title>Signup | Coding Cage</title>
     <!-- Bootstrap -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
-    <link href="assets/styles.css" rel="stylesheet" media="screen">
+    <link href="login/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="login/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+    <link href="login/assets/styles.css" rel="stylesheet" media="screen">
      <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    <script src="js/libs/modernizr-2.6.2-respond-1.1.0.min.js"></script>
   </head>
   <body id="login">
     <div class="container">
-				<?php if(isset($msg)) echo $msg;  ?>
+	<?php if(isset($msg)) echo $msg;  ?>
       <form class="form-signin" method="post">
-        <h2 class="form-signin-heading">Sign Up</h2><hr />
+        <h2 class="form-signin-heading">Sign Up</h2>
         <input type="text" class="input-block-level" placeholder="First Name" name="txtfname" required />
         <input type="text" class="input-block-level" placeholder="Last Name" name="txtlname" required />
         <input type="date" class="input-block-level" placeholder="Birthday" name="birthdate" required />
+		  <select name="roles">
+			  <option value="" disabled selected>Select you Scout Role</option>
+			  <option value="scout_member">Scout Member</option>
+			  <option value="scout_master">Scout Master</option>
+		  </select>
         <input type="text" class="input-block-level" placeholder="Username" name="txtuname" required />
         <input type="email" class="input-block-level" placeholder="Email address" name="txtemail" required />
         <input type="password" class="input-block-level" placeholder="Password" name="txtpass" required />
-     	<hr />
         <button class="btn btn-large btn-primary" type="submit" name="btn-signup">Sign Up</button>
-        <a href="index.php" style="float:right;" class="btn btn-large">Sign In</a>
       </form>
 
     </div> <!-- /container -->
-    <script src="vendors/jquery-1.9.1.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="login/bootstrap/js/jquery-1.9.1.min.js"></script>
+    <script src="login/bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>

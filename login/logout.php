@@ -5,12 +5,12 @@ $user = new USER();
 
 if(!$user->is_logged_in())
 {
-	$user->redirect('index.php');
+	$user->redirect('/scoutinggoals');
 }
 
 if($user->is_logged_in()!="")
 {
 	$user->logout();	
-	$user->redirect('index.php');
+	$user->redirect('/scoutinggoals');
 }
 ?>
