@@ -6,7 +6,7 @@ $reg_user = new USER();
 
 if($reg_user->is_logged_in()!="")
 {
-	$reg_user->redirect('home.php');
+	$reg_user->redirect('/scoutinggoals/home/');
 }
 
 
@@ -45,7 +45,7 @@ if(isset($_POST['btn-signup']))
 			$message = "					
 						Hello $uname,
 						<br /><br />
-						Welcome to Scounting Goals!<br/>
+						Welcome to Scouting Goals!<br/>
 						To complete your registration  please , just click following link<br/>
 						<br /><br />
 						<a href='https://biglarpour.com/scountinggoals/login/verify.php?id=$id&code=$code'>Click HERE to Activate :)</a>
@@ -69,7 +69,7 @@ if(isset($_POST['btn-signup']))
 		}		
 	}
 }
-?>
+$SIGNUP_HTML = <<< HTML
 <!DOCTYPE html>
 <html>
   <head>
@@ -86,7 +86,7 @@ if(isset($_POST['btn-signup']))
   </head>
   <body id="login">
     <div class="container">
-	<?php if(isset($msg)) echo $msg;  ?>
+	{$msg}
       <form class="form-signin" method="post">
         <h2 class="form-signin-heading">Sign Up</h2>
         <input type="text" class="input-block-level" placeholder="First Name" name="txtfname" required />
@@ -108,3 +108,5 @@ if(isset($_POST['btn-signup']))
     <script src="login/bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>
+HTML;
+?>

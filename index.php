@@ -1,3 +1,6 @@
+<?php require_once 'login/signin.php';?>
+<?php require_once 'login/signup.php';?>
+<?php require_once 'login/fpass.php';?>
 <html class="no-js lt-ie9 lt-ie8 lt-ie7">
 <html class="no-js lt-ie9 lt-ie8">
 <html class="no-js lt-ie9">
@@ -36,17 +39,23 @@
     <!--Main area-->
     <div class="hero-wrapper" >
         <section id="main" class="clearfix">
-                    <article id="login" class="grid_12">
+                    <article id="login" class="grid_12 default">
                         <h1 class="hero-msg-1">Let us help you</h1>
                         <h1 class="hero-msg-2">advance your organization</h1>
                         <div id="log-in">
-                            <?php include 'login/index.php';?>
+                            <?php echo $LOGIN_HTML; ?>
                         </div>
                         <img  class="hero-img"  width="100%" src="images/night_camp.jpg" />
                     </article><!-- end login -->
                     <article id="signup" class="grid_12">
                         <div id="sign-up">
-                            <?php include 'login/signup.php';?>
+                            <?php echo $SIGNUP_HTML; ?>
+                        </div>
+                        <img class="hero-img" width="100%" src="images/night_camp.jpg" />
+                    </article><!-- end signup -->
+                    <article id="fpass" class="grid_12">
+                        <div id="f_pass">
+                            <?php echo $FPASS_HTML; ?>
                         </div>
                         <img class="hero-img" width="100%" src="images/night_camp.jpg" />
                     </article><!-- end signup -->

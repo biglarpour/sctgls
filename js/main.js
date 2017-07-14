@@ -56,234 +56,239 @@ $(document).ready(function(){
 			$main_articles = $main.children('article');
 
 		// Main.
-			var	delay = 325;
+        var	delay = 325;
 
-			// Methods.
-				$main._show = function(id, initial) {
+        // Methods.
+        $main._show = function(id, initial, default_id=false) {
+            if (default_id === true) {
+                var $article = $main_articles.filter('.default');
+            }
+            else {
+                var $article = $main_articles.filter('#' + id);
+            }
 
-					var $article = $main_articles.filter('#' + id);
-					// No such article? Bail.
-						if ($article.length == 0)
-							return;
+            // No such article? Bail.
+            if ($article.length == 0)
+                return;
 
-					// Handle lock.
+            // Handle lock.
 
-						// Already locked? Speed through "show" steps w/o delays.
-							if (typeof initial != 'undefined' && initial === true) {
+            // Already locked? Speed through "show" steps w/o delays.
+            if (typeof initial != 'undefined' && initial === true) {
 
-								// Mark as switching.
-									$body.addClass('is-switching');
+                // Mark as switching.
+                    $body.addClass('is-switching');
 
-								// Mark as visible.
-									$body.addClass('is-article-visible');
+                // Mark as visible.
+                    $body.addClass('is-article-visible');
 
-								// Deactivate all articles (just in case one's already active).
-									$main_articles.removeClass('active');
+                // Deactivate all articles (just in case one's already active).
+                    $main_articles.removeClass('active');
 
-								// Show main, article.
-									$main.show();
-									$article.show();
+                // Show main, article.
+                    $main.show();
+                    $article.show();
 
-								// Activate article.
-									$article.addClass('active');
+                // Activate article.
+                    $article.addClass('active');
 
-								// Unmark as switching.
-									setTimeout(function() {
-										$body.removeClass('is-switching');
-									}, (initial ? 1000 : 0));
+                // Unmark as switching.
+                    setTimeout(function() {
+                        $body.removeClass('is-switching');
+                    }, (initial ? 1000 : 0));
 
-								return;
+                return;
 
-							}
+            }
 
-					// Article already visible? Just swap articles.
-						if ($body.hasClass('is-article-visible')) {
+            // Article already visible? Just swap articles.
+            if ($body.hasClass('is-article-visible')) {
 
-							// Deactivate current article.
-								var $currentArticle = $main_articles.filter('.active');
+                // Deactivate current article.
+                    var $currentArticle = $main_articles.filter('.active');
 
-								$currentArticle.removeClass('active');
+                    $currentArticle.removeClass('active');
 
-							// Show article.
-								setTimeout(function() {
+                // Show article.
+                    setTimeout(function() {
 
-									// Hide current article.
-										$currentArticle.hide();
+                        // Hide current article.
+                            $currentArticle.hide();
 
-									// Show article.
-										$article.show();
+                        // Show article.
+                            $article.show();
 
-									// Activate article.
-										setTimeout(function() {
+                        // Activate article.
+                            setTimeout(function() {
 
-											$article.addClass('active');
+                                $article.addClass('active');
 
-											// Window stuff.
-												$window
-													.scrollTop(0);
+                                // Window stuff.
+                                    $window
+                                        .scrollTop(0);
 
-										}, 25);
+                            }, 25);
 
-								}, delay);
+                    }, delay);
 
-						}
+            }
 
-					// Otherwise, handle as normal.
-						else {
-							// Mark as visible.
-								$body.addClass('is-article-visible');
-								var $currentArticle = $main_articles.filter('.active');
-                                $currentArticle.removeClass('active');
+            // Otherwise, handle as normal.
+            else {
+                // Mark as visible.
+                    $body.addClass('is-article-visible');
+                    var $currentArticle = $main_articles.filter('.active');
+                    $currentArticle.removeClass('active');
 
-							// Show article.
-								setTimeout(function() {
+                // Show article.
+                    setTimeout(function() {
 
-                                    // Hide current article.
-										$currentArticle.hide();
-									// Show main, article.
-										$main.show();
-										$article.show();
+                        // Hide current article.
+                            $currentArticle.hide();
+                        // Show main, article.
+                            $main.show();
+                            $article.show();
 
-									// Activate article.
-										setTimeout(function() {
+                        // Activate article.
+                            setTimeout(function() {
 
-											$article.addClass('active');
+                                $article.addClass('active');
 
-											// Window stuff.
-												$window
-													.scrollTop(0);
+                                // Window stuff.
+                                    $window
+                                        .scrollTop(0);
 
-										}, 25);
+                            }, 25);
 
-								}, delay);
+                    }, delay);
 
-						}
+            }
 
-				};
+        };
 
-				$main._hide = function(addState) {
+        $main._hide = function(addState) {
 
-					var $article = $main_articles.filter('.active');
+            var $article = $main_articles.filter('.active');
 
-					// Article not visible? Bail.
-						if (!$body.hasClass('is-article-visible'))
-							return;
+            // Article not visible? Bail.
+                if (!$body.hasClass('is-article-visible'))
+                    return;
 
-					// Add state?
-						if (typeof addState != 'undefined'
-						&&	addState === true)
-							history.pushState(null, null, '#');
+            // Add state?
+                if (typeof addState != 'undefined'
+                &&	addState === true)
+                    history.pushState(null, null, '#');
 
-					// Handle lock.
+            // Handle lock.
 
 
-					// Deactivate article.
-						$article.removeClass('active');
+            // Deactivate article.
+                $article.removeClass('active');
 
-					// Hide article.
-						setTimeout(function() {
+            // Hide article.
+                setTimeout(function() {
 
-							// Hide article, main.
-								$article.hide();
+                    // Hide article, main.
+                        $article.hide();
 
 
-							// Unmark as visible.
-								setTimeout(function() {
+                    // Unmark as visible.
+                        setTimeout(function() {
 
-									$body.removeClass('is-article-visible');
+                            $body.removeClass('is-article-visible');
 
-									// Window stuff.
-										$window
-											.scrollTop(0);
+                            // Window stuff.
+                                $window
+                                    .scrollTop(0);
 
-								}, 25);
+                        }, 25);
 
-						}, delay);
+                }, delay);
 
 
-				};
+        };
 
-			// Articles.
-				$main_articles.each(function() {
+    // Articles.
+        $main_articles.each(function() {
 
-					var $this = $(this);
+            var $this = $(this);
 
-					// Prevent clicks from inside article from bubbling.
-						$this.on('click', function(event) {
-							event.stopPropagation();
-						});
+            // Prevent clicks from inside article from bubbling.
+                $this.on('click', function(event) {
+                    event.stopPropagation();
+                });
 
-				});
+        });
 
-				$window.on('hashchange', function(event) {
+        $window.on('hashchange', function(event) {
 
-					// Empty hash?
-						if (location.hash == ''
-						||	location.hash == '#') {
+            // Empty hash?
+                if (location.hash == ''
+                ||	location.hash == '#') {
 
-							// Prevent default.
-								event.preventDefault();
-								event.stopPropagation();
+                    // Prevent default.
+                        event.preventDefault();
+                        event.stopPropagation();
 
-							// Hide.
-								$main._hide();
+                    // Hide.
+                        $main._hide();
 
-						}
+                }
 
-					// Otherwise, check for a matching article.
-						else if ($main_articles.filter(location.hash).length > 0) {
+            // Otherwise, check for a matching article.
+                else if ($main_articles.filter(location.hash).length > 0) {
 
-							// Prevent default.
-								event.preventDefault();
-								event.stopPropagation();
+                    // Prevent default.
+                        event.preventDefault();
+                        event.stopPropagation();
 
-							// Show article.
-								$main._show(location.hash.substr(1));
+                    // Show article.
+                        $main._show(location.hash.substr(1));
 
-						}
+                }
 
-				});
+        });
 
-			// Scroll restoration.
-			// This prevents the page from scrolling back to the top on a hashchange.
-				if ('scrollRestoration' in history)
-					history.scrollRestoration = 'manual';
-				else {
+        // Scroll restoration.
+        // This prevents the page from scrolling back to the top on a hashchange.
+        if ('scrollRestoration' in history)
+            history.scrollRestoration = 'manual';
+        else {
 
-					var	oldScrollPos = 0,
-						scrollPos = 0,
-						$htmlbody = $('html,body');
+            var	oldScrollPos = 0,
+                scrollPos = 0,
+                $htmlbody = $('html,body');
 
-					$window
-						.on('scroll', function() {
+            $window
+                .on('scroll', function() {
 
-							oldScrollPos = scrollPos;
-							scrollPos = $htmlbody.scrollTop();
+                    oldScrollPos = scrollPos;
+                    scrollPos = $htmlbody.scrollTop();
 
-						})
-						.on('hashchange', function() {
-							$window.scrollTop(oldScrollPos);
-						});
+                })
+                .on('hashchange', function() {
+                    $window.scrollTop(oldScrollPos);
+                });
 
-				}
+        }
 
-			// Initialize.
+        // Initialize.
 
-				// Hide main, articles.
-					$main.hide();
-					$main_articles.hide();
+        // Hide main, articles.
+        $main.hide();
+        $main_articles.hide();
 
-				// Initial article.
-					if (location.hash != ''
-					&&	location.hash != '#')
-						$window.on('load', function() {
-							$main._show(location.hash.substr(1), true);
-						});
-					else {
-					    $window.on('load', function() {
-					        $main._show("login", true);
-					    });
-					}
+        // Initial article.
+        if (location.hash != ''
+        &&	location.hash != '#')
+            $window.on('load', function() {
+                $main._show(location.hash.substr(1), true);
+            });
+        else {
+            $window.on('load', function() {
+                $main._show("", true, default_id=true);
+            });
+        }
 
 	});
 

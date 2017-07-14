@@ -6,7 +6,9 @@ class USER
 {	
 
 	private $conn;
-	
+	public $error;
+	public $inactive;
+
 	public function __construct()
 	{
 		$database = new Database();
@@ -69,21 +71,18 @@ class USER
 					}
 					else
 					{
-						$this->redirect("?error");
-						exit;
+						$this->error = true;
 					}
 				}
 				else
 				{
-					$this->redirect("?inactive");
-					exit;
-				}	
+					$this->inactive = true;
+				}
 			}
 			else
 			{
-				$this->redirect("?error");
-				exit;
-			}		
+				$this->error = true;
+			}
 		}
 		catch(PDOException $ex)
 		{
@@ -99,14 +98,12 @@ class USER
 			return true;
 		}
 	}
-	
+
 	public function redirect($url)
 	{
-	echo '<script type="text/javascript">
-			   window.location = "' .$url. '"
-		  </script>';
+		header("Location: $url");
 	}
-	
+
 	public function logout()
 	{
 		session_destroy();

@@ -244,7 +244,7 @@ a.buttonlink:hover{
 /* additional styling for SG
 */
 
-.hero-msg-1, .hero-msg-2 {
+.hero-msg-1, .hero-msg-2, .hero_user_name {
     color: #fff;
     position: absolute;
     margin: 5% 10%;
