@@ -29,6 +29,10 @@ h1, h2, h3, h4, h5, h6{
 	padding:0;
 } 
 
+.h1 {
+    font-weight:bold;
+}
+
 #main {
     display: none;
 }
@@ -271,6 +275,62 @@ a.buttonlink:hover{
 }
 
 
+/*table structure*/
+#table-wrapper {
+    position: absolute;
+    max-width: 1350px;
+    background: rgba(255,255,255,0.85);
+    margin: 10% 5% 10% 5%;
+    padding: 10px 17px;
+    -webkit-box-shadow: 2px 2px 3px -1px rgba(0,0,0,0.35);
+}
+
+#keywords {
+    margin: 0 auto;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+}
+
+
+#keywords thead {
+    cursor: pointer;
+    background: #B0D6D7;
+}
+#keywords thead tr th {
+    font-weight: bold;
+    padding: 12px 30px;
+    padding-left: 42px;
+}
+#keywords thead tr th span {
+    padding-right: 20px;
+    background-repeat: no-repeat;
+    background-position: 100% 100%;
+}
+
+#keywords thead tr th.headerSortUp, #keywords thead tr th.headerSortDown {
+    background: #acc8dd;
+}
+
+#keywords thead tr th.headerSortUp span {
+    background-image: url('https://i.imgur.com/SP99ZPJ.png');
+}
+#keywords thead tr th.headerSortDown span {
+    background-image: url('https://i.imgur.com/RkA9MBo.png');
+}
+
+
+#keywords tbody tr {
+    color: #555;
+}
+#keywords tbody tr td {
+    text-align: center;
+    padding: 15px 10px;
+}
+#keywords tbody tr td.lalign {
+    text-align: left;
+}
+
+
 /*
 LARGER MOBILE DEVICES
 This is for mobile devices with a bit larger screens.
@@ -369,7 +429,7 @@ But I think that some more breathing space is good:)
 
     /*** MAIN MENU - ESSENTIAL STYLES ***/
     .menu-toggle{display:none;}
-    #menu-main-navigation{display:block;}
+    #menu-main-navigation{display:block;width:100%}
 
     .srt-menu, .srt-menu * {
         margin:			0;

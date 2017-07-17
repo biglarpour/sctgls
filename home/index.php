@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../login/class.user.php';
+require_once 'troop.php';
 $user_home = new USER();
 
 if(!$user_home->is_logged_in())
@@ -54,7 +55,12 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
         <article id="summary" class="grid_12 default">
             <h1 class="hero_user_name"><?php echo $row['firstname'] . " " . $row['lastname']; ?></h1>
             <img  class="hero-summary-img"  width="100%" src="/scoutinggoals/images/summary_main.png" />
-        </article><!-- end login -->
+        </article><!-- end summary -->
+        <article id="troop" class="grid_12">
+            <h1 class="hero_user_name"><?php echo $row['firstname'] . " " . $row['lastname']; ?></h1>
+            <?php echo $TROOP_HTML ?>
+            <img  class="hero-summary-img"  width="100%" src="/scoutinggoals/images/summary_main.png" />
+        </article><!-- end troop -->
     </section><!-- end main area -->
 </div>
 
