@@ -15,8 +15,8 @@ $SCOUT_HTML = <<< HTML
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th class="h1">Scout</th>
+      <tr class="h1">
+        <th>Scout</th>
       </tr>
       <tr>
         <td><input onchange='openJournalModal(this, "S8");' type='checkbox' checked/></td>
@@ -42,8 +42,8 @@ $SCOUT_HTML = <<< HTML
         <td data-head="Due Date">08/03/2017</td>
         <td data-head="status">Incomplete</td>
       </tr>
-      <tr>
-        <th class="h1">Tenderfoot</th>
+      <tr class="h1">
+        <th>Tenderfoot</th>
       </tr>
       <tr>
         <td><input onchange='openJournalModal(this, "T1");' type='checkbox'/></td>

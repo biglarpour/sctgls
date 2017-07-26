@@ -60,7 +60,7 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
         <article id="scout" class="grid_12">
             <h1 class="hero_scout_user_name"><?php echo $row['firstname'] . " " . $row['lastname']; ?></h1>
             <?php echo $SCOUT_HTML ?>
-            <img  class="hero-scout-img"  width="100%" src="/scoutinggoals/images/summary_main.png" />
+            <img  id="hero-scout-img"  width="100%" src="/scoutinggoals/images/summary_main.png" />
         </article><!-- end troop -->
     </section><!-- end main area -->
 </div>

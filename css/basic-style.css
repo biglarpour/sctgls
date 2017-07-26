@@ -360,6 +360,7 @@ a.buttonlink:hover{
 }
 
 @media only screen and (max-width:920px) {
+    #table-wrapper {max-height:none;}
     /*table structure*/
     #keywords thead {display: none;}
     #keywords tr {border-bottom: 2px solid rgba(17,149,178,.35);}
@@ -384,11 +385,13 @@ a.buttonlink:hover{
     /*}*/
     #keywords .h1 {
         text-align: left;
+        background: rgba(255,255,255,1);
+        border-bottom: 2px solid;
     }
     #keywords tr:nth-child(even) {
         background: rgba(17,149,178,.2);
     }
-    .hero-scout-img {
+    #hero-scout-img {
         display: none;
     }
     .hero_scout_user_name {
@@ -651,6 +654,8 @@ But I think that some more breathing space is good:)
     /*table structure*/
     #table-wrapper {
         position: absolute;
+        overflow: auto;
+        max-height: 45vh;
         max-width: 1350px;
         background: rgba(255,255,255,0.85);
         margin: 10% 5% 10% 5%;
@@ -712,15 +717,14 @@ in general anyone not viewing on a mobile device. Here's where
 you can add resource intensive styles.
 */
 @media only screen and (min-width: 1030px) {
-
-} 
+}
 
 /*
 LARGE VIEWING SIZE
 This is for the larger monitors and possibly full screen viewers.
 */
 @media only screen and (min-width: 1240px) {
-
+    #table-wrapper {max-height: 55vh;}
 } 
 
 /*

@@ -70,7 +70,7 @@ $(document).ready(function(){
 
             // No such article? Bail.
             if ($article.length == 0)
-                return;
+                var $article = $main_articles.filter('.default');
 
             // Handle lock.
 
