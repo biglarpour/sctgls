@@ -14,7 +14,7 @@
         <ul class="srt-menu" id="menu-main-navigation">
             <li class="current"><a href="#summary">summary</a></li>
             <li><a href="#calendar">calendar</a></li>
-            <li><a href="#troop">the troop</a></li>
+            <li><a href="#scout">the scout</a></li>
             <li><a href="#settings">settings</a></li>
             <li style="float: right;"><a tabindex="-1" href="/scoutinggoals/login/logout.php">logout</a></li>
         </ul>

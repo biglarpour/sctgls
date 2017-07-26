@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once '../login/class.user.php';
-require_once 'troop.php';
+require_once 'scout.php';
 $user_home = new USER();
 
 if(!$user_home->is_logged_in())
@@ -14,6 +14,7 @@ $stmt->execute(array(":uid"=>$_SESSION['userSession']));
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 ?>
+<!DOCTYPE html>
 <html class="no-js lt-ie9 lt-ie8 lt-ie7">
 <html class="no-js lt-ie9 lt-ie8">
 <html class="no-js lt-ie9">
@@ -56,10 +57,10 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
             <h1 class="hero_user_name"><?php echo $row['firstname'] . " " . $row['lastname']; ?></h1>
             <img  class="hero-summary-img"  width="100%" src="/scoutinggoals/images/summary_main.png" />
         </article><!-- end summary -->
-        <article id="troop" class="grid_12">
-            <h1 class="hero_user_name"><?php echo $row['firstname'] . " " . $row['lastname']; ?></h1>
-            <?php echo $TROOP_HTML ?>
-            <img  class="hero-summary-img"  width="100%" src="/scoutinggoals/images/summary_main.png" />
+        <article id="scout" class="grid_12">
+            <h1 class="hero_scout_user_name"><?php echo $row['firstname'] . " " . $row['lastname']; ?></h1>
+            <?php echo $SCOUT_HTML ?>
+            <img  class="hero-scout-img"  width="100%" src="/scoutinggoals/images/summary_main.png" />
         </article><!-- end troop -->
     </section><!-- end main area -->
 </div>

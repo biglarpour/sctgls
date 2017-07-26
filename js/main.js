@@ -59,7 +59,8 @@ $(document).ready(function(){
         var	delay = 325;
 
         // Methods.
-        $main._show = function(id, initial, default_id=false) {
+        $main._show = function(id, initial, default_id) {
+            default_id = default_id || false
             if (default_id === true) {
                 var $article = $main_articles.filter('.default');
             }
@@ -293,3 +294,29 @@ $(document).ready(function(){
 	});
 
 })(jQuery);
+
+
+// Get the Journal modal
+var modal = document.getElementById('journalModal');
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("journal-modal-close")[0];
+var submit_journal = document.getElementsByClassName("journal_submit")[0];
+
+// When the user clicks the button, open the modal
+function openJournalModal(cb, rankID) {
+    if(cb.checked == true){
+        modal.style.display = "block";
+        submit_journal.id = rankID;
+    }
+    else{
+        modal.style.display = "none";
+    }
+}
+// When the user clicks on <span> (x), close the journal modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+submit_journal.onclick = function() {
+    modal.style.display = "none";
+}
