@@ -363,7 +363,7 @@ a.buttonlink:hover{
     #table-wrapper {max-height:none;}
     /*table structure*/
     #keywords thead {display: none;}
-    #keywords tr {border-bottom: 2px solid rgba(17,149,178,.35);}
+    #keywords tr {border-bottom: 2px solid rgba(17,149,178,.15);}
     #keywords tr:last-child {border-bottom: 0 none;}
     #keywords td {
         text-align: left;
@@ -389,7 +389,7 @@ a.buttonlink:hover{
         border-bottom: 2px solid;
     }
     #keywords tr:nth-child(even) {
-        background: rgba(17,149,178,.2);
+        background: rgba(17,149,178,.1);
     }
     #hero-scout-img {
         display: none;

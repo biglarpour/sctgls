@@ -1,6 +1,15 @@
 <?php
+session_start();
+require_once '../login/class.user.php';
+$user = new USER();
+if(!$user->is_logged_in())
+{
+    $user->redirect('/scoutinggoals');
+}
 
-$SCOUT_HTML = <<< HTML
+if($user->is_logged_in()!="") {
+    $tbody = implode("\n", $user->user_tasks());
+    $SCOUT_HTML = <<< HTML
 <body>
  <div id="table-wrapper">
   <table id="keywords" cellspacing="0" cellpadding="0">
@@ -15,52 +24,7 @@ $SCOUT_HTML = <<< HTML
       </tr>
     </thead>
     <tbody>
-      <tr class="h1">
-        <th>Scout</th>
-      </tr>
-      <tr>
-        <td><input onchange='openJournalModal(this, "S8");' type='checkbox' checked/></td>
-        <td data-head="Rank ID">S8</td>
-        <td data-head="Current Rank Tasks" class="lalign">Describe the Scout badge.</td>
-        <td data-head="Category">Joining</td>
-        <td data-head="Due Date">07/15/2017</td>
-        <td data-head="status">Pending</td>
-      </tr>
-      <tr>
-        <td><input onchange='openJournalModal(this, "S9");' type='checkbox'/></td>
-        <td data-head="Rank ID">S9</td>
-        <td data-head="Current Rank Tasks" class="lalign">Complete the pamphlet exercises. With your parent or guardian, complete the exercises in the pamphlet "How to Protect Your Children from Child Abuse: A Parent's Guide".</td>
-        <td data-head="Category">Joining</td>
-        <td data-head="Due Date">07/31/2017</td>
-        <td data-head="status">Incomplete</td>
-      </tr>
-      <tr>
-        <td><input onchange='openJournalModal(this, "S10");' type='checkbox'/></td>
-        <td data-head="Rank ID">S10</td>
-        <td data-head="Current Rank Tasks" class="lalign">Participate in a Scoutmaster conference. Turn in your Boy Scout application and health history form signed by your parent or guardian, then participate in a Scoutmaster conference.</td>
-        <td data-head="Category">Joining</td>
-        <td data-head="Due Date">08/03/2017</td>
-        <td data-head="status">Incomplete</td>
-      </tr>
-      <tr class="h1">
-        <th>Tenderfoot</th>
-      </tr>
-      <tr>
-        <td><input onchange='openJournalModal(this, "T1");' type='checkbox'/></td>
-        <td data-head="Rank ID">T1</td>
-        <td data-head="Current Rank Tasks" class="lalign">Present yourself to your leader, properly dressed, before going on an overnight camping trip. Show the camping gear you will use. Show the right way to pack and carry it.</td>
-        <td data-head="Category">Camping</td>
-        <td data-head="Due Date">09/01/2017</td>
-        <td data-head="status">Incomplete</td>
-      </tr>
-      <tr>
-        <td><input onchange='openJournalModal(this, "T2");' type='checkbox'/></td>
-        <td data-head="Rank ID">T2</td>
-        <td data-head="Current Rank Tasks" class="lalign">Spend at least one night on a patrol or troop campout. Sleep in a tent you have helped pitch.</td>
-        <td data-head="Category">Camping</td>
-        <td data-head="Due Date">09/15/2017</td>
-        <td data-head="status">Incomplete</td>
-      </tr>
+      {$tbody}
     </tbody>
   </table>
  </div> 
@@ -85,5 +49,5 @@ $SCOUT_HTML = <<< HTML
 </body>
 
 HTML;
-
+}
 ?>

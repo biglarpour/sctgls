@@ -23,10 +23,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_users`
+-- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `userID` int(11) NOT NULL AUTO_INCREMENT,
   `userName` varchar(100) NOT NULL,
   `userEmail` varchar(100) NOT NULL,
