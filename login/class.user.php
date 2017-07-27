@@ -9,6 +9,8 @@ class USER
 	public $error;
 	public $inactive;
 	public $last_due_date;
+	public $last_rank_id;
+	public $last_rank_task;
 
 	public function __construct()
 	{
@@ -92,33 +94,59 @@ class USER
 	}
 
     public function user_tasks(){
+	    $limit = 10;
+
         $user_tasks = $this->runQuery("SELECT * FROM users
                                             JOIN users_rank_tasks ON users_rank_tasks.user_id = users.userID
                                             WHERE users.userID=:uid
                                             AND users_rank_tasks.status != 'complete'
                                             order by users_rank_tasks.id");
         $user_tasks->execute(array(":uid"=>$_SESSION['userSession']));
-        $user_task_row = $user_tasks->fetch(PDO::FETCH_ASSOC);
         $rank_task_rows = array();
-        if (empty($user_task_row)){
+        if ($user_tasks->rowCount() < 1){
             $rank_tasks = $this->runQuery("SELECT * FROM rank_task
-                                                WHERE rank_task.rank_id=:rank_id
                                                 order by rank_task.id
-                                                LIMIT 5");
-            $rank_tasks->execute(array(":rank_id"=>1));
+                                                limit ".$limit);
+            $rank_tasks->execute(array());
             while ($rank_task_row = $rank_tasks->fetch(PDO::FETCH_ASSOC)){
                 array_push($rank_task_rows, $this->generate_html_rank_row($rank_task_row, NULL));
             }
         }
         else {
+            $index = 0;
             while ($user_task_row = $user_tasks->fetch(PDO::FETCH_ASSOC)) {
+                if ($index > $limit){
+                    return $rank_task_rows;
+                }
                 $rank_task_id = $user_task_row['rank_task_id'];
                 $rank_task = $this->runQuery("SELECT * FROM rank_task
                                                    WHERE rank_task.id=:rank_task_id");
-                $rank_task_row = $rank_task->execute(array(":rank_task_id"=>$rank_task_id));
+                $rank_task->execute(array(":rank_task_id"=>$rank_task_id));
+                $rank_task_row = $rank_task->fetch(PDO::FETCH_ASSOC);
                 if ($rank_task->rowCount() == 1) {
+                    if (!empty($this-> last_rank_task) && $this-> last_rank_task['next_task_id'] != $rank_task_row['id']){
+                        $next_rank_task = $this->runQuery("SELECT * FROM rank_task
+                                                   WHERE rank_task.id=:rank_task_id");
+                        $next_rank_task->execute(array(":rank_task_id"=>$this-> last_rank_task['next_task_id']));
+                        $next_rank_task_row = $next_rank_task->fetch(PDO::FETCH_ASSOC);
+                        if ($rank_task->rowCount() == 1) {
+                            array_push($rank_task_rows, $this->generate_html_rank_row($next_rank_task_row, NULL));
+                            $index ++;
+                        }
+                    }
                     array_push($rank_task_rows, $this->generate_html_rank_row($rank_task_row, $user_task_row));
+                    $index ++;
                 }
+            }
+            $last_rank_task = $this->runQuery("SELECT * FROM rank_task
+                                                    WHERE rank_task.id > :last_task_id");
+            $last_rank_task->execute(array(":last_task_id"=>$this-> last_rank_task['id']));
+            while ($rank_task_row = $last_rank_task->fetch(PDO::FETCH_ASSOC)){
+                if ($index > $limit){
+                    return $rank_task_rows;
+                }
+                array_push($rank_task_rows, $this->generate_html_rank_row($rank_task_row, NULL));
+                $index ++;
             }
         }
         return $rank_task_rows;
@@ -126,29 +154,34 @@ class USER
 
     public function generate_html_rank_row($rank_task_row, $user_rank_task_row){
         $rank_id = $rank_task_row['rank_id'];
-        $minimum_minutes = $rank_task_row['minimum_minutes'];
-        $rank = $this->runQuery("SELECT * FROM rank
+        $rank_header = "";
+        if ($rank_id != $this->last_rank_id){
+            $rank = $this->runQuery("SELECT * FROM rank
                                       WHERE rank.id=:task_rank_id");
-        $rank->execute(array(":task_rank_id"=>$rank_id));
-        $rank_row = $rank->fetch(PDO::FETCH_ASSOC);
-        $rank_abv_id = "N/A";
-        $checked = "";
-        $status = "incomplete";
-        $due_date = "N/A";
-        if ($rank->rowCount() == 1){
-            $rank_abv_id = ($rank_row['rank_abbreviation'] . $rank_id);
+            $rank->execute(array(":task_rank_id"=>$rank_id));
+            $rank_row = $rank->fetch(PDO::FETCH_ASSOC);
+            if ($rank->rowCount() == 1){
+                $rank_name = ucwords($rank_row['rank_name']);
+                $this->last_rank_id = $rank_id;
+                $rank_header = '<tr><th class="h1">'.$rank_name.'</th></tr>';
+            }
         }
+        $minimum_minutes = $rank_task_row['minimum_minutes'];
+        $rank_abv_id = $rank_task_row['rank_alias_id'];
+        $checked = "";
+        $status = "Incomplete";
+        $due_date = "N/A";
         if ($minimum_minutes == 0){
             $minimum_minutes = 4320;
         }
         $rank_task = $rank_task_row['task'];
-        $category = $rank_task_row['category'];
+        $category = ucwords($rank_task_row['category']);
         if (!empty($user_rank_task_row)){
-            $status = $user_rank_task_row['status'];
+            $status = ucwords($user_rank_task_row['status']);
             $due_date = $user_rank_task_row['due_date'];
             $checked = "checked";
         }
-        if ($status == "incomplete"){
+        if ($status == "Incomplete"){
             if (!empty($this->last_due_date)){
                 $time = $this->last_due_date;
                 $time->add(new DateInterval('PT' . $minimum_minutes . 'M'));
@@ -162,7 +195,9 @@ class USER
                 $due_date = $time->format('Y-m-d');
             }
         }
+        $this-> last_rank_task = $rank_task_row;
         $rank_html = <<< HTML
+                    {$rank_header}
                      <tr>
                         <td><input onchange='openJournalModal(this, "{$rank_abv_id}");' type='checkbox' {$checked}/></td>
                         <td data-head="Rank ID">{$rank_abv_id}</td>
