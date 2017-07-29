@@ -298,24 +298,33 @@ $(document).ready(function(){
 
 // Get the Journal modal
 var modal = document.getElementById('journalModal');
-
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("journal-modal-close")[0];
-var submit_journal = document.getElementsByClassName("journal_submit")[0];
 
+var submit_journal = document.getElementsByClassName("journal_submit")[0];
+var last_check_box = null;
 // When the user clicks the button, open the modal
-function openJournalModal(cb, rankID) {
+function openJournalModal(cb, rankID, dueDate) {
     if(cb.checked == true){
+        var rank_task_element = document.getElementById('rank_alias_id');
+        var rank_due_element = document.getElementById('rank_due_date');
         modal.style.display = "block";
-        submit_journal.id = rankID;
+        rank_task_element.value = rankID;
+        rank_due_element.value = dueDate;
+        last_check_box = cb;
     }
     else{
         modal.style.display = "none";
     }
 }
+
+
 // When the user clicks on <span> (x), close the journal modal
 span.onclick = function() {
     modal.style.display = "none";
+    if( last_check_box ) {
+        last_check_box.checked = false;
+    }
 }
 submit_journal.onclick = function() {
     modal.style.display = "none";

@@ -66,23 +66,6 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
 </div>
 
 
-
-
-
-<!-- content area -->
-<div class="wrapper">
-    <!-- content area -->
-    <section id="rank" class="wide-content">
-        <div class="row">
-            <div class="grid_12">
-                <h1 class="current_rank">CURRENT RANK</h1>
-            </div>
-        </div><!-- end row -->
-    </section><!-- end content area -->
-
-</div><!-- #end div .wrapper -->
-
-
 <?php include '../footer.php';?>
 
 <!-- jQuery -->

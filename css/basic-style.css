@@ -717,6 +717,7 @@ in general anyone not viewing on a mobile device. Here's where
 you can add resource intensive styles.
 */
 @media only screen and (min-width: 1030px) {
+    #table-wrapper {max-height: 52vh;}
 }
 
 /*
@@ -724,7 +725,7 @@ LARGE VIEWING SIZE
 This is for the larger monitors and possibly full screen viewers.
 */
 @media only screen and (min-width: 1240px) {
-    #table-wrapper {max-height: 55vh;}
+    #table-wrapper {max-height: 58vh;}
 } 
 
 /*
