@@ -19,7 +19,7 @@ if(isset($_POST['btn-record-task']))
 }
 if($user->is_logged_in()!="") {
     $tbody = implode("\n", $user->user_tasks());
-    $SCOUT_HTML = <<< HTML
+    $SCOUT_TASK_HTML = <<< HTML
 <body>
  {$error}
  <div id="table-wrapper">

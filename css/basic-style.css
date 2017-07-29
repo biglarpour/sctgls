@@ -726,7 +726,12 @@ This is for the larger monitors and possibly full screen viewers.
 */
 @media only screen and (min-width: 1240px) {
     #table-wrapper {max-height: 58vh;}
-} 
+}
+
+@media only screen and (min-width: 1400px) {
+    #table-wrapper {max-height: 70vh;}
+}
+
 
 /*
 RETINA (2x RESOLUTION DEVICES)

@@ -1,18 +1,28 @@
 <?php
 session_start();
 require_once '../login/class.user.php';
-require_once 'scout.php';
 $user_home = new USER();
 
 if(!$user_home->is_logged_in())
 {
-$user_home->redirect('/scoutinggoals');
+    $user_home->redirect('/scoutinggoals');
 }
-
 $stmt = $user_home->runQuery("SELECT * FROM users WHERE userID=:uid");
 $stmt->execute(array(":uid"=>$_SESSION['userSession']));
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
+$master_roles = array("scout_master");
+$scout_roles = array("scout_member");
+if (in_array($row['role_type'], $scout_roles)){
+    require_once 'scout/index.php';
+    $role_html = $SCOUT_HTML;
+}
+elseif (in_array($row['role_type'], $master_roles)){
+    require_once 'master/index.php';
+    $role_html = $MASTER_HTML;
+}
+else {
+    throw New Exception("Failed to find a valid role for current user. Please contact your account manager.");
+}
 ?>
 <!DOCTYPE html>
 <html class="no-js lt-ie9 lt-ie8 lt-ie7">
@@ -49,23 +59,7 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
 </head>
 
 <body id="home">
-<?php include 'header.php';?>
-<!--Main area-->
-<div class="hero-wrapper" >
-    <section id="main" class="clearfix">
-        <article id="summary" class="grid_12 default">
-            <h1 class="hero_user_name"><?php echo $row['firstname'] . " " . $row['lastname']; ?></h1>
-            <img  class="hero-summary-img"  width="100%" src="/scoutinggoals/images/summary_main.png" />
-        </article><!-- end summary -->
-        <article id="scout" class="grid_12">
-            <h1 class="hero_scout_user_name"><?php echo $row['firstname'] . " " . $row['lastname']; ?></h1>
-            <?php echo $SCOUT_HTML ?>
-            <img  id="hero-scout-img"  width="100%" src="/scoutinggoals/images/summary_main.png" />
-        </article><!-- end troop -->
-    </section><!-- end main area -->
-</div>
-
-
+<?php echo $role_html;?>
 <?php include '../footer.php';?>
 
 <!-- jQuery -->
