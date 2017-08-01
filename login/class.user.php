@@ -31,13 +31,30 @@ class USER
 		return $stmt;
 	}
 	
-	public function register($fname,$lname,$bdate,$role,$uname,$email,$upass,$code)
+	public function register($fname,$lname,$bdate,$role,$uname,$email,$upass,$code,$masterId)
 	{
+        $scout_master_id = null;
+        if (!empty($masterId)){
+            try {
+	            $scout_master = $this->runQuery("select * from users
+                                                      where users.tokenCode = :master_id");
+	            $scout_master->execute(array(":master_id"=>$masterId));
+	            if ($scout_master->rowCount() == 1){
+	                $scout_master_row = $scout_master->fetch(PDO::FETCH_ASSOC);
+
+                    $scout_master_id = $scout_master_row['userID'];
+                }
+            }
+            catch (Exception $ex)
+            {
+                echo $ex->getMessage();
+            }
+        }
 		try
 		{							
 			$password = md5($upass);
-			$stmt = $this->conn->prepare("INSERT INTO users(firstname,lastname,birthdate,role_type,userName,userEmail,userPass,tokenCode)
-			                                             VALUES(:first_name,:last_name,:birthdate,:role,:user_name, :user_mail, :user_pass, :active_code)");
+			$stmt = $this->conn->prepare("INSERT INTO users(firstname,lastname,birthdate,role_type,userName,userEmail,userPass,tokenCode, masters_id)
+			                                             VALUES(:first_name,:last_name,:birthdate,:role,:user_name, :user_mail, :user_pass, :active_code, :masters_id)");
 			$stmt->bindparam(":first_name",$fname);
 			$stmt->bindparam(":last_name",$lname);
 			$stmt->bindparam(":birthdate",$bdate);
@@ -46,7 +63,8 @@ class USER
 			$stmt->bindparam(":user_mail",$email);
 			$stmt->bindparam(":user_pass",$password);
 			$stmt->bindparam(":active_code",$code);
-			$stmt->execute();	
+			$stmt->bindparam(":masters_id",$scout_master_id);
+			$stmt->execute();
 			return $stmt;
 		}
 		catch(PDOException $ex)
@@ -168,17 +186,18 @@ class USER
     public function generate_html_rank_row($rank_task_row, $user_rank_task_row){
         $rank_id = $rank_task_row['rank_id'];
         $rank_header = "";
-        if ($rank_id != $this->last_rank_id){
-            $rank = $this->runQuery("SELECT * FROM rank
+        $rank_name = "N/A";
+        $rank = $this->runQuery("SELECT * FROM rank
                                       WHERE rank.id=:task_rank_id");
-            $rank->execute(array(":task_rank_id"=>$rank_id));
-            $rank_row = $rank->fetch(PDO::FETCH_ASSOC);
-            if ($rank->rowCount() == 1){
-                $rank_name = ucwords($rank_row['rank_name']);
-                $this->last_rank_id = $rank_id;
-                $rank_header = '<tr><th class="h1">'.$rank_name.'</th></tr>';
+        $rank->execute(array(":task_rank_id"=>$rank_id));
+        $rank_row = $rank->fetch(PDO::FETCH_ASSOC);
+        if ($rank->rowCount() == 1){
+            $rank_name = ucwords($rank_row['rank_name']);
+            if ($rank_id != $this->last_rank_id){
+                    $this->last_rank_id = $rank_id;
+                    $rank_header = '<tr><th class="h1">'.$rank_name.'</th></tr>';
+                }
             }
-        }
         $minimum_minutes = $rank_task_row['minimum_minutes'];
         $rank_abv_id = $rank_task_row['rank_alias_id'];
         $checked = "";
@@ -212,8 +231,8 @@ class USER
         $rank_html = <<< HTML
                     {$rank_header}
                      <tr>
-                        <td><input onchange='openJournalModal(this, "{$rank_abv_id}", "{$due_date}");' type='checkbox' {$checked}/></td>
-                        <td data-head="Rank ID">{$rank_abv_id}</td>
+                        <td><input onchange='openJournalModal(this, "{$rank_abv_id}", "{$rank_name}", "{$due_date}");' type='checkbox' {$checked}/></td>
+                        <td class="tooltip" data-head="Rank ID">{$rank_abv_id}<span class="tooltiptext">{$rank_name}</td>
                         <td data-head="Current Rank Tasks" class="lalign">{$rank_task}</td>
                         <td data-head="Category">{$category}</td>
                         <td data-head="Due Date">{$due_date}</td>

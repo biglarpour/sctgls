@@ -19,6 +19,7 @@ if(isset($_POST['btn-signup']))
 	$uname = trim($_POST['txtuname']);
 	$email = trim($_POST['txtemail']);
 	$upass = trim($_POST['txtpass']);
+	$mastersId = trim($_POST['mastersid']);
 	$code = md5(uniqid(rand()));
 	
 	$stmt = $reg_user->runQuery("SELECT * FROM users WHERE userEmail=:email_id");
@@ -36,7 +37,7 @@ if(isset($_POST['btn-signup']))
 	}
 	else
 	{
-		if($reg_user->register($firstn,$lastn,$bdate,$role,$uname,$email,$upass,$code))
+		if($reg_user->register($firstn,$lastn,$bdate,$role,$uname,$email,$upass,$code,$mastersId))
 		{			
 			$id = $reg_user->lasdID();		
 			$key = base64_encode($id);
@@ -51,22 +52,22 @@ if(isset($_POST['btn-signup']))
 						<a href='https://biglarpour.com/scountinggoals/login/verify.php?id=$id&code=$code'>Click HERE to Activate :)</a>
 						<br /><br />
 						Thanks,";
-						
+
 			$subject = "Confirm Registration";
-						
-			$reg_user->send_mail($email,$message,$subject);	
+
+			$reg_user->send_mail($email,$message,$subject);
 			$msg = "
 					<div class='alert alert-success'>
 						<button class='close' data-dismiss='alert'>&times;</button>
 						<strong>Success!</strong>  We've sent an email to $email.
-                    Please click on the confirmation link in the email to create your account. 
+                    Please click on the confirmation link in the email to create your account.
 			  		</div>
 					";
 		}
 		else
 		{
 			echo "sorry , Query could no execute...";
-		}		
+		}
 	}
 }
 $SIGNUP_HTML = <<< HTML
@@ -92,11 +93,12 @@ $SIGNUP_HTML = <<< HTML
         <input type="text" class="input-block-level" placeholder="First Name" name="txtfname" required />
         <input type="text" class="input-block-level" placeholder="Last Name" name="txtlname" required />
         <input type="date" class="input-block-level" placeholder="Birthday" name="birthdate" required />
-		  <select name="roles">
-			  <option value="" disabled selected>Select you Scout Role</option>
-			  <option value="scout_member">Scout Member</option>
-			  <option value="scout_master">Scout Master</option>
-		  </select>
+        <select id="role_state" name="roles">
+            <option value="" disabled selected>Select you Scout Role</option>
+            <option value="scout_member">Scout Member</option>
+            <option value="scout_master">Scout Master</option>
+        </select>
+        <input id="mastersId" type="text" class="input-block-level" placeholder="Scout Master's ID" name="mastersid" style="display: none;"/>
         <input type="text" class="input-block-level" placeholder="Username" name="txtuname" required />
         <input type="email" class="input-block-level" placeholder="Email address" name="txtemail" required />
         <input type="password" class="input-block-level" placeholder="Password" name="txtpass" required />

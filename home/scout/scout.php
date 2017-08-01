@@ -46,7 +46,7 @@ if($user->is_logged_in()!="") {
     <div class="modal-content">
         <div class="modal-header">
             <span class="journal-modal-close">&times;</span>
-            <h2>Journal</h2>
+            <h2 class="modal_title">Journal</h2>
         </div>
         <div class="modal-body">
             <form class="form-rank-task" method="post">

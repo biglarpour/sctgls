@@ -31,10 +31,10 @@ $(document).ready(function(){
 	}
 
 	button.onclick = function() {
-		if ( -1 == menu.className.indexOf( 'srt-menu' ) )
+		if ( -1 === menu.className.indexOf( 'srt-menu' ) )
 			menu.className = 'srt-menu';
 
-		if ( -1 != button.className.indexOf( 'toggled-on' ) ) {
+		if ( -1 !== button.className.indexOf( 'toggled-on' ) ) {
 			button.className = button.className.replace( ' toggled-on', '' );
 			menu.className = menu.className.replace( ' toggled-on', '' );
 		} else {
@@ -69,13 +69,13 @@ $(document).ready(function(){
             }
 
             // No such article? Bail.
-            if ($article.length == 0)
+            if ($article.length === 0)
                 var $article = $main_articles.filter('.default');
 
             // Handle lock.
 
             // Already locked? Speed through "show" steps w/o delays.
-            if (typeof initial != 'undefined' && initial === true) {
+            if (typeof initial !== 'undefined' && initial === true) {
 
                 // Mark as switching.
                     $body.addClass('is-switching');
@@ -176,7 +176,7 @@ $(document).ready(function(){
                     return;
 
             // Add state?
-                if (typeof addState != 'undefined'
+                if (typeof addState !== 'undefined'
                 &&	addState === true)
                     history.pushState(null, null, '#');
 
@@ -221,11 +221,19 @@ $(document).ready(function(){
 
         });
 
+        $("#role_state").change(function() {
+            if ($(this).val() === "scout_member") {
+                $("#mastersId").show();
+            }else{
+                $("#mastersId").hide();
+            }
+        });
+
         $window.on('hashchange', function(event) {
 
             // Empty hash?
-                if (location.hash == ''
-                ||	location.hash == '#') {
+                if (location.hash === ''
+                ||	location.hash === '#') {
 
                     // Prevent default.
                         event.preventDefault();
@@ -280,8 +288,8 @@ $(document).ready(function(){
         $main_articles.hide();
 
         // Initial article.
-        if (location.hash != ''
-        &&	location.hash != '#')
+        if (location.hash !== ''
+        &&	location.hash !== '#')
             $window.on('load', function() {
                 $main._show(location.hash.substr(1), true);
             });
@@ -298,34 +306,34 @@ $(document).ready(function(){
 
 // Get the Journal modal
 var modal = document.getElementById('journalModal');
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("journal-modal-close")[0];
-
-var submit_journal = document.getElementsByClassName("journal_submit")[0];
-var last_check_box = null;
+if (modal) {
+    var span = document.getElementsByClassName("journal-modal-close")[0];
+    var last_check_box = null;
 // When the user clicks the button, open the modal
-function openJournalModal(cb, rankID, dueDate) {
-    if(cb.checked == true){
-        var rank_task_element = document.getElementById('rank_alias_id');
-        var rank_due_element = document.getElementById('rank_due_date');
-        modal.style.display = "block";
-        rank_task_element.value = rankID;
-        rank_due_element.value = dueDate;
-        last_check_box = cb;
+    function openJournalModal(cb, rankID, rankName, dueDate) {
+        if(cb.checked === true){
+            var rank_task_element = document.getElementById('rank_alias_id');
+            var rank_due_element = document.getElementById('rank_due_date');
+            var modal_title_element = document.getElementById('modal_title');
+            modal.style.display = "block";
+            rank_task_element.value = rankID;
+            modal_title_element.innerHTML = "Journal Entry for " + rankName + " " + rankID;
+            rank_due_element.value = dueDate;
+            last_check_box = cb;
+        }
+        else{
+            modal.style.display = "none";
+        }
     }
-    else{
-        modal.style.display = "none";
-    }
-}
 
 
 // When the user clicks on <span> (x), close the journal modal
-span.onclick = function() {
-    modal.style.display = "none";
-    if( last_check_box ) {
-        last_check_box.checked = false;
-    }
+    span.onclick = function() {
+        modal.style.display = "none";
+        if( last_check_box ) {
+            last_check_box.checked = false;
+        }
+    };
+
 }
-submit_journal.onclick = function() {
-    modal.style.display = "none";
-}
+
