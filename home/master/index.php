@@ -1,22 +1,23 @@
 <?php
 session_start();
 require_once '../login/class.user.php';
-require_once 'scouts.php';
-$user_home = new USER();
+$userObj = new USER();
 
-if(!$user_home->is_logged_in())
+if(!$userObj->is_logged_in())
 {
-$user_home->redirect('/scoutinggoals');
+    $userObj->redirect('/scoutinggoals');
 }
 ob_start();
 include 'header.php';
 $header = ob_get_contents();
 ob_end_clean();
-$stmt = $user_home->runQuery("SELECT * FROM users WHERE userID=:uid");
+$stmt = $userObj->runQuery("SELECT * FROM users WHERE userID=:uid");
 $stmt->execute(array(":uid"=>$_SESSION['userSession']));
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
-$first_name = $row['firstname'];
-$last_name = $row['lastname'];
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+require_once 'master/scouts.php';
+require_once 'master/settings.php';
+$first_name = $user['firstname'];
+$last_name = $user['lastname'];
 $MASTER_HTML = <<< HTML
 {$header}
 <!--Main area-->
@@ -29,6 +30,11 @@ $MASTER_HTML = <<< HTML
         <article id="scouts" class="grid_12">
             <h1 class="hero_scout_user_name">{$first_name} {$last_name}</h1>
             {$SCOUT_TASK_HTML}
+            <img  id="hero-scout-img"  width="100%" src="/scoutinggoals/images/summary_main.png" />
+        </article>
+        <article id="settings" class="grid_12">
+            <h1 class="hero_scout_user_name">{$first_name} {$last_name}</h1>
+            {$SETTINGS_HTML}
             <img  id="hero-scout-img"  width="100%" src="/scoutinggoals/images/summary_main.png" />
         </article><!-- end troop -->
     </section><!-- end main area -->

@@ -111,9 +111,18 @@ class USER
 		}
 	}
 
-    public function user_tasks(){
-	    $limit = 10;
+	public function update_user($max_task_display){
+	    try {
+            $stmt = $this->runQuery("UPDATE users SET max_task_display=:max_task_display WHERE userID=:uid");
+            $stmt->execute(array(":max_task_display"=>$max_task_display,":uid"=>$_SESSION['userSession']));
+            return $stmt;
+        }
+        catch (PDOException $ex){
+	        echo $ex->getMessage();
+        }
+    }
 
+    public function user_tasks($limit){
         $user_tasks = $this->runQuery("SELECT * FROM users
                                             JOIN users_rank_tasks ON users_rank_tasks.user_id = users.userID
                                             WHERE users.userID=:uid
@@ -127,8 +136,17 @@ class USER
                                             AND users_rank_tasks.status = 'complete'
                                             order by users_rank_tasks.id");
         $completed_user_tasks->execute(array(":uid"=>$_SESSION['userSession']));
+        $completed_task_ids = array();
+        while ($completed_task_row = $completed_user_tasks->fetch(PDO::FETCH_ASSOC)){
+            array_push($completed_task_ids, $completed_task_row['rank_task_id']);
+        }
         if ($user_tasks->rowCount() < 1){
+            $completed_tasks = 1;
+            if (!empty($completed_task_ids)){
+                $completed_tasks = "id not in (". implode(", ", $completed_task_ids) . ")";
+            }
             $rank_tasks = $this->runQuery("SELECT * FROM rank_task
+                                                WHERE " . $completed_tasks . "
                                                 order by rank_task.id
                                                 limit ".$limit);
             $rank_tasks->execute(array());
@@ -165,10 +183,6 @@ class USER
             $last_rank_task = $this->runQuery("SELECT * FROM rank_task
                                                     WHERE rank_task.id > :last_task_id");
             $last_rank_task->execute(array(":last_task_id"=>$this-> last_rank_task['id']));
-            $completed_task_ids = array();
-            while ($completed_task_row = $completed_user_tasks->fetch(PDO::FETCH_ASSOC)){
-                array_push($completed_task_ids, $completed_task_row['rank_task_id']);
-            }
             while ($rank_task_row = $last_rank_task->fetch(PDO::FETCH_ASSOC)){
                 if ($index > $limit){
                     return $rank_task_rows;
@@ -242,6 +256,73 @@ HTML;
         return $rank_html;
     }
 
+
+    public function user_review_tasks($limit){
+        $scout_users = $this->runQuery("SELECT * FROM users
+                                             WHERE users.masters_id = :user_id");
+        $scout_users->execute(array(":user_id"=>$_SESSION['userSession']));
+        $scout_tasks = array();
+        if (!$scout_users->rowCount() < 1){
+            while ($scout_user_row=$scout_users->fetch(PDO::FETCH_ASSOC)){
+                $user_tasks = $this->runQuery("SELECT users.firstname, users.lastname, users_rank_tasks.id,
+                                                           rank_task.rank_id, users_rank_tasks.status, users_rank_tasks.journal_entry, 
+                                                           users_rank_tasks.due_date, rank_task.rank_alias_id,
+                                                           rank_task.task, rank_task.category FROM users
+                                                    JOIN users_rank_tasks ON users_rank_tasks.user_id = users.userID
+                                                    JOIN rank_task on rank_task.id = users_rank_tasks.rank_task_id
+                                                    WHERE users.userID=:uid
+                                                    AND users_rank_tasks.status in ('pending', 'need more info')
+                                                    order by users_rank_tasks.id
+                                                    LIMIT ".$limit);
+                $user_tasks->execute(array(":uid"=>$scout_user_row['userID']));
+                if (!$user_tasks->rowCount() < 1){
+                    array_push($scout_tasks, $this->generate_scout_title($scout_user_row));
+                    while ($user_task_row=$user_tasks->fetch(PDO::FETCH_ASSOC)){
+                        array_push($scout_tasks, $this->generate_scout_review_html($user_task_row));
+                    }
+                }
+            }
+        }
+        return $scout_tasks;
+    }
+
+    public function generate_scout_title($user){
+        $user_name = ucwords($user['firstname'] . " " . $user['lastname']);
+        return <<< SCOUTTITLE
+                <tr>
+                    <th class="h1">{$user_name}</th>
+                </tr>
+SCOUTTITLE;
+    }
+
+    public function generate_scout_review_html($user_task_row){
+        $rank_id = $user_task_row['rank_id'];
+        $rank_name = "N/A";
+        $rank = $this->runQuery("SELECT * FROM rank
+                                      WHERE rank.id=:task_rank_id");
+        $rank->execute(array(":task_rank_id"=>$rank_id));
+        $rank_row = $rank->fetch(PDO::FETCH_ASSOC);
+        if ($rank->rowCount() == 1){
+            $rank_name = ucwords($rank_row['rank_name']);
+        }
+        $rank_abv_id = $user_task_row['rank_alias_id'];
+        $due_date = $user_task_row['due_date'];
+        $rank_task = $user_task_row['task'];
+        $category = ucwords($user_task_row['category']);
+        $status = ucwords($user_task_row['status']);
+        $users_name = ucwords($user_task_row['firstname'] . " " . $user_task_row['lastname']);
+        return <<< SCOUTREVIEW
+                     <tr>
+                        <td><input onchange='openReviewModal(this, "{$rank_abv_id}", "{$users_name}", "{$user_task_row['id']}", "{$user_task_row['journal_entry']}");' type='checkbox'/></td>
+                        <td class="tooltip" data-head="Rank ID">{$rank_abv_id}<span class="tooltiptext">{$rank_name}</td>
+                        <td data-head="Current Rank Tasks" class="lalign">{$rank_task}</td>
+                        <td data-head="Category">{$category}</td>
+                        <td data-head="Due Date">{$due_date}</td>
+                        <td data-head="status">{$status}</td>
+                      </tr>
+SCOUTREVIEW;
+    }
+
     public function record_task_entry($entry, $rank_alias_id, $due_date){
         {
             try
@@ -272,6 +353,34 @@ HTML;
                 return $ex->getMessage();
             }
         }
+    }
+
+    public function record_task_review($user_rank_task_id, $review_status, $review_comment){
+        $user_rank_task = $this->runQuery("SELECT * FROM users_rank_tasks 
+                                                WHERE users_rank_tasks.id = :user_rank_task_id");
+        $user_rank_task->execute(array(':user_rank_task_id'=>$user_rank_task_id));
+        if ($user_rank_task->rowCount() == 1){
+            $user_rank_task_row = $user_rank_task->fetch(PDO::FETCH_ASSOC);
+            if ($review_status == "approve"){
+                $review_status_clean = "complete";
+            }
+            elseif ($review_status == "more_info"){
+                $review_status_clean = "need more info";
+            }
+            else{
+                return "Invalid review status picked!";
+            }
+            try{
+
+                $stmt = $this->conn->prepare("UPDATE users_rank_tasks SET users_rank_tasks.status = '" . $review_status_clean . "' WHERE id = " . $user_rank_task_row['id']);
+                $stmt->execute();
+                return true;
+            }
+            catch(PDOException $ex){
+                return $ex->getMessage();
+            }
+        }
+
     }
 	
 	public function is_logged_in()

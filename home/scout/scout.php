@@ -1,27 +1,24 @@
 <?php
-session_start();
-require_once '../login/class.user.php';
-$user = new USER();
-if(!$user->is_logged_in())
+/**
+ * $userObj and $user loaded from master/index.php
+ */
+if(!$userObj->is_logged_in())
 {
-    $user->redirect('/scoutinggoals');
+    $userObj->redirect('/scoutinggoals');
 }
-$error = "";
 if(isset($_POST['btn-record-task']))
 {
     $journal_entry = trim($_POST['journal_entry']);
     $rank_alias_id = trim($_POST['rank_alias_id']);
     $rank_due_date = trim($_POST['rank_due_date']);
-    $response = $user->record_task_entry($journal_entry, $rank_alias_id, $rank_due_date);
-    if (!$response == 1){
-        $error = $response;
-    }
+    $response = $userObj->record_task_entry($journal_entry, $rank_alias_id, $rank_due_date);
+    header("Location: " . $_SERVER['REQUEST_URI']);
+    exit();
 }
-if($user->is_logged_in()!="") {
-    $tbody = implode("\n", $user->user_tasks());
+if($userObj->is_logged_in()!="") {
+    $tbody = implode("\n", $userObj->user_tasks($user['max_task_display']));
     $SCOUT_TASK_HTML = <<< HTML
 <body>
- {$error}
  <div id="table-wrapper">
   <table id="keywords" cellspacing="0" cellpadding="0">
     <thead>
@@ -46,7 +43,7 @@ if($user->is_logged_in()!="") {
     <div class="modal-content">
         <div class="modal-header">
             <span class="journal-modal-close">&times;</span>
-            <h2 class="modal_title">Journal</h2>
+            <h2 id="modal_title">Journal</h2>
         </div>
         <div class="modal-body">
             <form class="form-rank-task" method="post">

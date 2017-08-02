@@ -392,6 +392,11 @@ a.buttonlink:hover{
     margin: 5px;
 }
 
+.approveStatus input,
+.moreInfo input {
+    margin: 10px 10px 10px 0;
+}
+
 @media only screen and (max-width:920px) {
     #table-wrapper {max-height:none;}
     /*table structure*/
@@ -739,6 +744,10 @@ But I think that some more breathing space is good:)
     }
     #keywords tbody tr td.lalign {
         text-align: left;
+    }
+    .form-settings #keywords tbody tr td {
+        text-align: left;
+        padding: 15px 20px;
     }
 
 }

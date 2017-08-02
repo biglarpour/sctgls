@@ -1,32 +1,24 @@
 <?php
-session_start();
-require_once '../login/class.user.php';
-$user = new USER();
-if(!$user->is_logged_in())
+/**
+ * $user loaded from master/index.php
+ */
+if(!$userObj->is_logged_in())
 {
-    $user->redirect('/scoutinggoals');
+    $userObj->redirect('/scoutinggoals');
 }
-$error = "";
-if(isset($_POST['btn-record-task']))
+if(isset($_POST['btn-record-review']))
 {
-    $journal_entry = trim($_POST['journal_entry']);
-    if (empty($journal_entry)){
-        $error = "A Journal Entry is required, please make sure to fill a valid Journal Entry.";
-    }
-    else {
-        $rank_alias_id = trim($_POST['rank_alias_id']);
-        $rank_due_date = trim($_POST['rank_due_date']);
-        $response = $user->record_task_entry($journal_entry, $rank_alias_id, $rank_due_date);
-        if (!$response == 1) {
-            $error = $response;
-        }
-    }
+    $review_status = trim($_POST['reviewStatus']);
+    $user_rank_task_id = trim($_POST['user_rank_task_id']);
+    $review_comment = trim($_POST['review_comment']);
+    $response = $userObj->record_task_review($user_rank_task_id, $review_status, $review_comment);
+    header("Location: " . $_SERVER['REQUEST_URI']);
+    exit();
 }
-if($user->is_logged_in()!="") {
-    $tbody = implode("\n", $user->user_tasks());
+if($userObj->is_logged_in()!="") {
+    $tbody = implode("\n", $userObj->user_review_tasks($user['max_task_display']));
     $SCOUT_TASK_HTML = <<< HTML
 <body>
- {$error}
  <div id="table-wrapper">
   <table id="keywords" cellspacing="0" cellpadding="0">
     <thead>
@@ -45,21 +37,27 @@ if($user->is_logged_in()!="") {
   </table>
  </div> 
  
-<div id="journalModal" class="modal">
+<div id="reviewModal" class="modal">
 
   <!-- Modal content -->
     <div class="modal-content">
         <div class="modal-header">
-            <span class="journal-modal-close">&times;</span>
-            <h2 id="modal_title">Journal</h2>
+            <span class="review-modal-close">&times;</span>
+            <h2 id="modal_title">Review</h2>
         </div>
         <div class="modal-body">
-            <form class="form-rank-task" method="post">
-                <textarea rows='4' name="journal_entry"  required class="boxsizingBorder" placeholder="Write a few lines here about your assignment for the current badge that you've completed. Some badges require you the write a summary of your fitness, finance, environment study, but we encourage you to do it for every task."></textarea>
-                <input id="rank_alias_id" type="hidden" name="rank_alias_id" >
-                <input id="rank_due_date" type="hidden" name="rank_due_date" >
+            <form id="form-rank-review" method="post">
+                <label id="journal_entry"></label>
+                <input id="user_rank_task_id" type="hidden" name="user_rank_task_id" >
+                <div class="approveStatus">
+                    <input name="reviewStatus" type="checkbox" value="approve">Approve
+                </div>
+                <div class="moreInfo" >
+                    <input name="reviewStatus" id="requestTextArea" type="checkbox" value="more_info">Request More information
+                </div>
+                <textarea id="reviewTextArea" style="display: none;" rows='4' name="review_comment"  class="boxsizingBorder" placeholder="Write a comment back to Scout"></textarea>
                 <div class="modal-footer">
-                    <button class="journal_submit" name="btn-record-task">Submit Journal</button>
+                    <button class="review_submit" name="btn-record-review">Submit Review</button>
                 </div>
             </form>
         </div>

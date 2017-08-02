@@ -40,7 +40,7 @@ if(isset($_GET['id']) && isset($_GET['code']))
 						<button class='close' data-dismiss='alert'>&times;</button>
 						Password Changed.
 						</div>";
-				header("refresh:5;index.php");
+				header("Location: https://biglarpour.com/scoutinggoals");
 			}
 		}	
 	}
@@ -73,10 +73,10 @@ if(isset($_GET['id']) && isset($_GET['code']))
   <body id="login">
     <div class="container">
     	<div class='alert alert-success'>
-			<strong>Hello !</strong>  <?php echo $rows['userName'] ?> you are here to reset your forgetton password.
+			<strong>Hello !</strong>  <?php echo $rows['userName'] ?> you are here to reset your password.
 		</div>
         <div>
- ss="form-signin" method="post">
+    <form class="form-signin" method="post">
         <h3 class="form-signin-heading">Password Reset.</h3><hr />
         <?php
         if(isset($msg))

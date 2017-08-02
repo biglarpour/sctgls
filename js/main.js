@@ -229,6 +229,28 @@ $(document).ready(function(){
             }
         });
 
+        $("#form-rank-review input:checkbox").on('click', function() {
+            // in the handler, 'this' refers to the box clicked on
+            var $box = $(this);
+            if ($box.is(":checked")) {
+                if ($box.attr('id') === "requestTextArea"){
+                    $("#reviewTextArea").show();
+                }
+                else {
+                    $("#reviewTextArea").hide();
+                }
+                // the name of the box is retrieved using the .attr() method
+                // as it is assumed and expected to be immutable
+                var group = "input:checkbox[name='" + $box.attr("name") + "']";
+                // the checked state of the group/box on the other hand will change
+                // and the current value is retrieved using .prop() method
+                $(group).prop("checked", false);
+                $box.prop("checked", true);
+            } else {
+                $box.prop("checked", false);
+                $("#reviewTextArea").hide();
+            }
+        });
         $window.on('hashchange', function(event) {
 
             // Empty hash?
@@ -337,3 +359,37 @@ if (modal) {
 
 }
 
+// Get the Journal modal
+var reviewModal = document.getElementById('reviewModal');
+if (reviewModal) {
+    var reviewSpan = document.getElementsByClassName("review-modal-close")[0];
+    var last_check_box = null;
+// When the user clicks the button, open the modal
+    function openReviewModal(cb, rankID, userName, userRankTaskID, userJournal) {
+        if(cb.checked === true){
+            var user_rank_task_id = document.getElementById('user_rank_task_id');
+            var journal_entry = document.getElementById('journal_entry');
+            var reviewTxtArea = document.getElementById('reviewTextArea');
+            var modal_title_element = document.getElementById('modal_title');
+            user_rank_task_id.value = userRankTaskID;
+            journal_entry.innerHTML = userJournal;
+            reviewTxtArea.placeholder = "Write a comment back to Scout " + userName;
+            modal_title_element.innerHTML = "Review for " + userName + " on " + rankID;
+            reviewModal.style.display = "block";
+            last_check_box = cb;
+        }
+        else{
+            reviewModal.style.display = "none";
+        }
+    }
+
+
+// When the user clicks on <span> (x), close the journal modal
+    reviewSpan.onclick = function() {
+        reviewModal.style.display = "none";
+        if( last_check_box ) {
+            last_check_box.checked = false;
+        }
+    };
+
+}
