@@ -18,7 +18,6 @@ if(isset($_POST['btn-record-task']))
 if($userObj->is_logged_in()!="") {
     $tbody = implode("\n", $userObj->user_tasks($user['max_task_display']));
     $SCOUT_TASK_HTML = <<< HTML
-<body>
  <div id="table-wrapper">
   <table id="keywords" cellspacing="0" cellpadding="0">
     <thead>
@@ -57,9 +56,6 @@ if($userObj->is_logged_in()!="") {
         </div>
     </div>
 </div>
-
-</body>
-
 HTML;
 }
 ?>

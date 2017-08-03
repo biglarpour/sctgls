@@ -16,6 +16,7 @@ $stmt->execute(array(":uid"=>$_SESSION['userSession']));
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 require_once 'master/scouts.php';
 require_once 'master/settings.php';
+require_once 'master/calendar.php';
 $first_name = $user['firstname'];
 $last_name = $user['lastname'];
 $MASTER_HTML = <<< HTML
@@ -30,6 +31,11 @@ $MASTER_HTML = <<< HTML
         <article id="scouts" class="grid_12">
             <h1 class="hero_scout_user_name">{$first_name} {$last_name}</h1>
             {$SCOUT_TASK_HTML}
+            <img  id="hero-scout-img"  width="100%" src="/scoutinggoals/images/summary_main.png" />
+        </article>
+        <article id="calendar" class="grid_12">
+            <h1 class="hero_scout_user_name">{$first_name} {$last_name}</h1>
+            {$CALENDAR_HTML}
             <img  id="hero-scout-img"  width="100%" src="/scoutinggoals/images/summary_main.png" />
         </article>
         <article id="settings" class="grid_12">

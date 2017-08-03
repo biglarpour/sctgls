@@ -1,7 +1,7 @@
 
 // Fireup the plugins
 $(document).ready(function(){
-	
+
 	// initialise  slideshow
 	 $('.flexslider').flexslider({
         animation: "slide",

@@ -749,6 +749,10 @@ But I think that some more breathing space is good:)
         text-align: left;
         padding: 15px 20px;
     }
+    #schedules {
+        position: absolute;
+        margin: auto;
+    }
 
 }
 

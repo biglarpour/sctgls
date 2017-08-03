@@ -54,6 +54,8 @@ else {
 
     <!-- JS-->
     <script src="/scoutinggoals/js/libs/modernizr-2.6.2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/libs/jquery-1.9.0.min.js">\x3C/script>')</script>
     <!-- end JS-->
 
 </head>
@@ -63,8 +65,7 @@ else {
 <?php include '../footer.php';?>
 
 <!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/libs/jquery-1.9.0.min.js">\x3C/script>')</script>
+
 
 <script defer src="/scoutinggoas/js/flexslider/jquery.flexslider-min.js"></script>
 
