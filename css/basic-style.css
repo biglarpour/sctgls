@@ -396,6 +396,37 @@ a.buttonlink:hover{
 .moreInfo input {
     margin: 10px 10px 10px 0;
 }
+.modal #event_type{
+    width: 100%;
+    max-width: 300px;
+    margin: 10px 10px 10px 0;
+}
+
+.modal .event_submit{
+    color: black;
+}
+/*calendar*/
+.schedules-date{
+    font-weight: normal;
+    width: 100%;
+    float: left;
+    text-align: left;
+}
+.schedules-date .button {
+    border-radius: 5px;
+    border: 1px solid grey;
+    width: 100%;
+    background: -webkit-linear-gradient(lightgrey, #f2f2f2); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(lightgrey, #f2f2f2); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(lightgrey, #f2f2f2); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(lightgrey, #f2f2f2); /* Standard syntax (must be last) */
+}
+.schedules-date .button:hover {
+    background: -webkit-linear-gradient(#54bdca, #9cd1d6); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#54bdca, #9cd1d6); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#54bdca, #9cd1d6); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#54bdca, #9cd1d6); /* Standard syntax (must be last) */
+}
 
 @media only screen and (max-width:920px) {
     #table-wrapper {max-height:none;}
@@ -751,7 +782,8 @@ But I think that some more breathing space is good:)
     }
     #schedules {
         position: absolute;
-        margin: auto;
+        left: 0;
+        right: 0;
     }
 
 }

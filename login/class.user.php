@@ -30,8 +30,8 @@ class USER
 		$stmt = $this->conn->lastInsertId();
 		return $stmt;
 	}
-	
-	public function register($fname,$lname,$bdate,$role,$uname,$email,$upass,$code,$masterId)
+
+        public function register($fname,$lname,$bdate,$role,$uname,$email,$upass,$code,$masterId)
 	{
         $scout_master_id = null;
         if (!empty($masterId)){
@@ -382,6 +382,66 @@ SCOUTREVIEW;
         }
 
     }
+
+    public function get_events($masterId){
+        if (!empty($masterId)){
+            $user_id = $masterId;
+        }
+        else {
+            $user_id = $_SESSION['userSession'];
+        }
+        $event_list = $this->runQuery("SELECT * from user_events
+                                              WHERE user_id = :user_id");
+        $event_list->execute(array(":user_id"=>$user_id));
+        $return_list = array();
+        while ($event_row=$event_list->fetch(PDO::FETCH_ASSOC)){
+            array_push($return_list, $this->generate_event($event_row));
+        }
+        return $return_list;
+    }
+
+    public function generate_event($event_row){
+        $event_type = $event_row["event_type"];
+        $event_description = $event_row["event_description"];
+        $event_date = $event_row["event_date"];
+        return <<< EVENT
+{
+              name: '{$event_type}',
+              description: '{$event_description}',
+              date: '{$event_date}'
+            }
+EVENT;
+    }
+
+    public function add_new_event($event_date, $even_type, $event_description){
+        $event_exists = $this->runQuery("SELECT * from user_events
+                                              WHERE user_id = :user_id
+                                              AND event_type = :event_type
+                                              AND event_date = :event_date");
+        $event_exists->execute(array(":user_id"=>$_SESSION['userSession'],
+                                     ":event_type"=>$even_type,
+                                     ":event_date"=>$event_date));
+        if ($event_exists->rowCount() > 0){
+            return "The event type " . $even_type . "for " . $event_date . "has already booked.";
+        }
+        else {
+            try
+            {
+                $stmt = $this->conn->prepare("INSERT INTO user_events(user_id,event_type,event_description,event_date)
+			                                             VALUES(:user_id,:event_type,:event_description,:event_date)");
+                $stmt->bindparam(":user_id",$_SESSION['userSession']);
+                $stmt->bindparam(":event_type",$even_type);
+                $stmt->bindparam(":event_description",$event_description);
+                $stmt->bindparam(":event_date",$event_date);
+                $stmt->execute();
+                return null;
+            }
+            catch(PDOException $ex)
+            {
+                return $ex->getMessage();
+            }
+        }
+    }
 	
 	public function is_logged_in()
 	{
@@ -419,5 +479,5 @@ SCOUTREVIEW;
 		$mail->Subject    = $subject;
 		$mail->MsgHTML($message);
 		$mail->Send();
-	}	
+	}
 }

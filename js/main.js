@@ -359,7 +359,7 @@ if (modal) {
 
 }
 
-// Get the Journal modal
+// Get the Review modal
 var reviewModal = document.getElementById('reviewModal');
 if (reviewModal) {
     var reviewSpan = document.getElementsByClassName("review-modal-close")[0];
@@ -390,6 +390,27 @@ if (reviewModal) {
         if( last_check_box ) {
             last_check_box.checked = false;
         }
+    };
+
+}
+
+// Get the Event modal
+var eventModal = document.getElementById('eventModal');
+if (eventModal) {
+    var eventSpan = document.getElementsByClassName("event-modal-close")[0];
+// When the user clicks the button, open the modal
+    function openEventModal(event_date) {
+        var event_title = document.getElementById('event_title');
+        var event_date_elem = document.getElementById('event_date');
+        event_title.innerHTML = "Add New Event for " + event_date.trim();
+        event_date_elem.value = event_date.trim();
+        eventModal.style.display = "block";
+    }
+
+
+// When the user clicks on <span> (x), close the journal modal
+    eventSpan.onclick = function() {
+        eventModal.style.display = "none";
     };
 
 }
