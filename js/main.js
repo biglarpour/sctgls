@@ -302,7 +302,6 @@ $(document).ready(function(){
                 });
 
         }
-
         // Initialize.
 
         // Hide main, articles.
@@ -413,4 +412,55 @@ if (eventModal) {
         eventModal.style.display = "none";
     };
 
+}
+// Get the Summary modal
+var summaryModal = document.getElementById('summaryModal');
+if (summaryModal) {
+    var summarySpan = document.getElementsByClassName("summary-modal-close")[0];
+    var summaryClose = document.getElementsByClassName("summary_submit")[0];
+// When the user clicks the button, open the modal
+    function openSummaryModal(summary_date) {
+        var summary_title = document.getElementById('summary_title');
+        summary_title.innerHTML = "Summary of " + summary_date;
+        summaryModal.style.display = "block";
+    }
+
+
+// When the user clicks on <span> (x), close the journal modal
+    summarySpan.onclick = function() {
+        summaryModal.style.display = "none";
+    };
+    summaryClose.onclick = function() {
+        summaryModal.style.display = "none";
+    };
+
+}
+// Get the New rank task modal
+var newRankTaskModal = document.getElementById('newRankTaskModal');
+if (newRankTaskModal) {
+    var newRankTaskSpan = document.getElementsByClassName("nrt-modal-close")[0];
+// When the user clicks the button, open the modal
+    function openNewRankTaskModal() {
+        newRankTaskModal.style.display = "block";
+    }
+
+// When the user clicks on <span> (x), close the journal modal
+    newRankTaskSpan.onclick = function() {
+        newRankTaskModal.style.display = "none";
+    };
+}
+
+function unlockRankTask(cb, class_name) {
+    var classes = document.getElementsByClassName(class_name);
+    var arrayLength = classes.length;
+    if(cb.checked === true) {
+        for (var i = 0; i < arrayLength; i++) {
+            classes[i].disabled = false;
+        }
+    }
+    else {
+        for (var i = 0; i < arrayLength; i++) {
+            classes[i].disabled = true;
+        }
+    }
 }

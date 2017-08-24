@@ -41,7 +41,7 @@ if($userObj->is_logged_in()!="") {
   <!-- Modal content -->
     <div class="modal-content">
         <div class="modal-header">
-            <span class="review-modal-close">&times;</span>
+            <a href="" onclick="return false;"><span class="review-modal-close">&times;</span></a>
             <h2 id="modal_title">Review</h2>
         </div>
         <div class="modal-body">

@@ -113,7 +113,7 @@ if($userObj->is_logged_in()!="") {
       <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
-                <a><span class="event-modal-close">&times;</span></a>
+                <a href="" onclick="return false;"><span class="event-modal-close">&times;</span></a>
                 <h2 id="event_title">Add New Event</h2>
             </div>
             <div class="modal-body">

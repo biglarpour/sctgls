@@ -37,7 +37,7 @@ if($userObj->is_logged_in()!="") {
       </tr>
       <tr>
         <td>Max number of tasks to display per scout</td>
-        <td><input type="number" name="max_task_display" value="{$max_task_display}"</td>
+        <td><input type="number" name="max_task_display" value="{$max_task_display}"/></td>
       </tr>
       <tr><td><button class="settings_save" name="btn-settings-save">Save</button></td></tr>
       <tr><td><button class="reset_password" name="btn-reset-password">Reset Password</button></td></tr>

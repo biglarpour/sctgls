@@ -15,6 +15,7 @@ $last_name = $user['lastname'];
 require_once 'scout.php';
 require_once 'settings.php';
 require_once 'calendar.php';
+require_once 'summary.php';
 
 include 'header.php';
 $header = ob_get_contents();
@@ -25,8 +26,9 @@ $SCOUT_HTML = <<< HTML
 <div class="hero-wrapper" >
     <section id="main" class="clearfix">
         <article id="summary" class="grid_12 default">
-            <h1 class="hero_user_name">{$first_name} {$last_name}</h1>
-            <img  class="hero-summary-img"  width="100%" src="/scoutinggoals/images/summary_main.png" />
+            <h1 class="hero_scout_user_name">{$first_name} {$last_name}</h1>
+            {$SUMMARY_HTML}
+            <img  id="hero-scout-img"  width="100%" src="/scoutinggoals/images/summary_main_long.png" />
         </article><!-- end summary -->
         <article id="scout" class="grid_12">
             <h1 class="hero_scout_user_name">{$first_name} {$last_name}</h1>

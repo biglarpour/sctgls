@@ -73,14 +73,19 @@ class USER
 		}
 	}
 	
-	public function login($email,$upass)
+	public function login($email,$upass,$role_type=null)
 	{
+	    $role_query = "";
+	    if (!empty($role_type)){
+	        $role_query = " AND role_type='" . $role_type ."'";
+        }
+        $query = "SELECT * FROM users WHERE userEmail=:email_id" . $role_query;
 		try
 		{
-			$stmt = $this->conn->prepare("SELECT * FROM users WHERE userEmail=:email_id");
+			$stmt = $this->conn->prepare($query);
 			$stmt->execute(array(":email_id"=>$email));
 			$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
-			
+
 			if($stmt->rowCount() == 1)
 			{
 				if($userRow['userStatus']=="Y")
@@ -107,6 +112,7 @@ class USER
 		}
 		catch(PDOException $ex)
 		{
+            echo $query;
 			echo $ex->getMessage();
 		}
 	}
@@ -314,7 +320,7 @@ SCOUTTITLE;
         return <<< SCOUTREVIEW
                      <tr>
                         <td><input onchange='openReviewModal(this, "{$rank_abv_id}", "{$users_name}", "{$user_task_row['id']}", "{$user_task_row['journal_entry']}");' type='checkbox'/></td>
-                        <td class="tooltip" data-head="Rank ID">{$rank_abv_id}<span class="tooltiptext">{$rank_name}</td>
+                        <td class="tooltip" data-head="Rank ID">{$rank_abv_id}<span class="tooltiptext">{$rank_name}</span></td>
                         <td data-head="Current Rank Tasks" class="lalign">{$rank_task}</td>
                         <td data-head="Category">{$category}</td>
                         <td data-head="Due Date">{$due_date}</td>
@@ -442,10 +448,21 @@ EVENT;
             }
         }
     }
-	
+
 	public function is_logged_in()
 	{
 		if(isset($_SESSION['userSession']))
+		{
+			return true;
+		}
+	}
+
+	public function is_admin()
+	{
+        $stmt = $this->runQuery("SELECT * FROM users WHERE userID=:uid");
+        $stmt->execute(array(":uid"=>$_SESSION['userSession']));
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+		if($row['role_type'] == 'admin')
 		{
 			return true;
 		}
