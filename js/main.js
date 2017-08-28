@@ -419,9 +419,14 @@ if (summaryModal) {
     var summarySpan = document.getElementsByClassName("summary-modal-close")[0];
     var summaryClose = document.getElementsByClassName("summary_submit")[0];
 // When the user clicks the button, open the modal
-    function openSummaryModal(summary_date) {
+    function openSummaryModal(title, body) {
+        if(!body) {
+            body = "empty";
+        }
         var summary_title = document.getElementById('summary_title');
-        summary_title.innerHTML = "Summary of " + summary_date;
+        var summary_body = document.getElementById('summary_body_text');
+        summary_title.innerHTML = "Summary of " + title;
+        summary_body.innerHTML = body;
         summaryModal.style.display = "block";
     }
 

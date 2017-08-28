@@ -445,10 +445,10 @@ a.buttonlink:hover{
     border: 3px #398789 solid;
 }
 #summary-content a.summary-btn {
-    width:100px;
-    height:100px;
-    border-radius:50px;
-    line-height:100px;
+    width:120px;
+    height:120px;
+    border-radius:60px;
+    line-height:120px;
 }
 #summary-content a.summary-btn-small {
     width:70px;
