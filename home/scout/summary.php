@@ -36,7 +36,7 @@ if($userObj->is_logged_in()!="") {
 CUR_RANK;
         }
         $rank_html = <<< RANK
-<a href="" onclick="openSummaryModal('{$rank_name}');return false;" class="summary-btn {$completed}">{$short_rank_name}</a>
+<a href="" onclick="openSummaryModal(this);return false;" data-title="{$rank_name}" class="summary-btn {$completed}">{$short_rank_name}</a>
 RANK;
         array_push($ranks_html_list, $rank_html);
     }
@@ -49,10 +49,26 @@ RANK;
     $rank_tasks->execute(array(':rank_id'=>$current_rank,
                                ":user_id"=>$_SESSION['userSession']));
     $rank_tasks_html_list = array();
+    $task_index = 0;
+    $next_tasks_html_list = array();
     while ($rank_task_row = $rank_tasks->fetch(PDO::FETCH_ASSOC)){
         $rank_tasks_compeleted = "";
+        $rank_task_description = htmlentities($rank_task_row['task'], ENT_QUOTES);
+        $rank_task_description = preg_replace( "/\r|\n/", "<br>", $rank_task_description);
         if (empty($rank_task_row['status'])){
             $rank_task_status = "Incomplete";
+            if ($task_index < 5){
+                $next_html = <<< NEXT_TASK
+<a href="" onclick="openSummaryModal(this);return false;" data-title="{$rank_task_row['rank_alias_id']}" data-body="{$rank_task_description}" class="summary-btn-sqr">
+  <div class="wrap">
+    <p>{$rank_task_description}</p>
+  </div>
+</a>
+NEXT_TASK;
+                array_push($next_tasks_html_list, $next_html);
+                $task_index++;
+
+            }
         }
         elseif ($rank_task_row['status'] == 'complete'){
             $rank_tasks_compeleted = 'completed';
@@ -61,14 +77,34 @@ RANK;
         else {
             $rank_task_status = $rank_task_row['status'];
         }
-        $rank_task_body = $rank_task_row['task'] . "<br>" . $rank_task_status;
+        $rank_task_body = $rank_task_description . "<br>" . $rank_task_status;
         $rank_task_html = <<< RANK_TASK
-<a href="" onclick="openSummaryModal('{$rank_task_row['rank_alias_id']}', '{$rank_task_body}');return false;" class="summary-btn-small {$rank_tasks_compeleted}">{$rank_task_row['rank_alias_id']}</a>
+<a href="" onclick="openSummaryModal(this);return false;" data-title="{$rank_task_row['rank_alias_id']}" data-body="{$rank_task_body}" class="summary-btn-small {$rank_tasks_compeleted}">{$rank_task_row['rank_alias_id']}</a>
 RANK_TASK;
         array_push($rank_tasks_html_list, $rank_task_html);
 
     }
     $rank_tasks_html = implode("\n", $rank_tasks_html_list);
+    $next_tasks_html = implode("\n", $next_tasks_html_list);
+//    UP COMING EVENTS
+    $upcoming_events = $userObj->get_upcoming_events($user['masters_id']);
+    $upcoming_events_html_list = array();
+    for ($i=0 ;$i < count($upcoming_events); $i++) {
+        $event_row = $upcoming_events[$i];
+        $event_title = "Upcoming Event on " . $event_row['event_date'];
+        $event_description = htmlspecialchars($event_row["event_description"], ENT_QUOTES, $double_encode=false);
+        $event_description = preg_replace( "/\r|\n/", "<br>", $event_description);
+        $event_html = <<< EVENT
+<a href="" onclick="openSummaryModal(this);return false;" data-title="{$event_title}" data-body="{$event_description}" class="summary-btn-sqr">
+  <div class="event wrap">
+    <h4>{$event_row['event_date']}</h4>
+    <p>{$event_description}</p>
+  </div>
+</a>
+EVENT;
+        array_push($upcoming_events_html_list, $event_html);
+    }
+    $upcoming_events_html = implode("\n", $upcoming_events_html_list);
     $SUMMARY_HTML = <<< HTML
 <div id="summary-content">
     <div class="current-rank">
@@ -81,52 +117,11 @@ RANK_TASK;
     </div>
     <div>
         <h2>WHAT TO DO NEXT</h2>
-        <a href="" onclick="openSummaryModal('Visit Museum');return false;" class="summary-btn-sqr">
-          <div class="wrap">
-            <p>Visit Museum</p>
-          </div>
-        </a>
-        <a href="" onclick="openSummaryModal('Understand and agree to live by the Scout Oath, Scout Law, motto, slogan, and the outdoor Cod');return false;" class="summary-btn-sqr">
-          <div class="wrap">
-            <p>Understand and agree to live by the Scout Oath, Scout Law, motto, slogan, and the outdoor Cod</p>
-          </div>
-        </a>
-        <a href="" onclick="openSummaryModal('Teach another scout how to treat for shock');return false;" class="summary-btn-sqr">
-          <div class="wrap">
-            <p>Teach another scout how to treat for shock</p>
-          </div>
-        </a>
-        <a href="" onclick="openSummaryModal('Set up a tent');return false;" class="summary-btn-sqr">
-          <div class="wrap">
-            <p>Set up a tent</p>
-          </div>
-        </a>
-        <a href="" onclick="openSummaryModal('Identify 10 local animals');return false;" class="summary-btn-sqr">
-          <div class="wrap">
-            <p>Identify 10 local animals</p>
-          </div>
-        </a>
+        {$next_tasks_html}
     </div>
     <div>
         <h2>UPCOMING EVENTS</h2>
-        <a href="" onclick="openSummaryModal('2017-08-11 Event We are going to teach everyone how to tie a knot');return false;" class="summary-btn-sqr">
-          <div class="event wrap">
-            <h4>2017-08-11</h4>
-            <p>We are going to teach everyone how to tie a knot</p>
-          </div>
-        </a>
-        <a href="" onclick="openSummaryModal('2017-08-11 Meetup At the park around the corner');return false;" class="summary-btn-sqr">
-          <div class="event wrap">
-            <h4>2017-08-11</h4>
-            <p>At the park around the corner</p>
-          </div>
-        </a>
-        <a href="" onclick="openSummaryModal('2017-08-12 Camping Start the camping adventures');return false;" class="summary-btn-sqr">
-          <div class="event wrap">
-            <h4>2017-08-12</h4>
-            <p>Start the camping adventures</p>
-          </div>
-        </a>
+        {$upcoming_events_html}
     </div>
 </div>
 <!-- Modal content -->

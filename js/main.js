@@ -419,7 +419,9 @@ if (summaryModal) {
     var summarySpan = document.getElementsByClassName("summary-modal-close")[0];
     var summaryClose = document.getElementsByClassName("summary_submit")[0];
 // When the user clicks the button, open the modal
-    function openSummaryModal(title, body) {
+    function openSummaryModal(elem) {
+        title = elem.getAttribute('data-title');
+        body = elem.getAttribute('data-body');
         if(!body) {
             body = "empty";
         }

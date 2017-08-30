@@ -252,7 +252,8 @@ a.buttonlink:hover{
 .hero-msg-1, .hero-msg-2, .hero_user_name, .hero_scout_user_name {
     color: #fff;
     position: absolute;
-    margin: 5% 10%;
+    margin: 5%;
+    padding: 20px;
 }
 
 .hero-msg-1, .hero-msg-2 {
@@ -430,7 +431,7 @@ a.buttonlink:hover{
 
 #summary-content {
     position: inherit;
-    margin: 10% 5% 10% 5%;
+    margin: 6%;
     background: rgba(176, 214, 215, 0.4);
     left: 0;
     right: 0;

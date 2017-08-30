@@ -226,7 +226,8 @@ class USER
         if ($minimum_minutes == 0){
             $minimum_minutes = 4320;
         }
-        $rank_task = $rank_task_row['task'];
+        $rank_task = htmlentities($rank_task_row['task'], ENT_QUOTES);
+        $rank_task = preg_replace( "/\r|\n/", "<br>", $rank_task);
         $category = ucwords($rank_task_row['category']);
         if (!empty($user_rank_task_row)){
             $status = ucwords($user_rank_task_row['status']);
@@ -313,7 +314,8 @@ SCOUTTITLE;
         }
         $rank_abv_id = $user_task_row['rank_alias_id'];
         $due_date = $user_task_row['due_date'];
-        $rank_task = $user_task_row['task'];
+        $rank_task = htmlentities($user_task_row['task'], ENT_QUOTES);
+        $rank_task = preg_replace( "/\r|\n/", "<br>", $rank_task);
         $category = ucwords($user_task_row['category']);
         $status = ucwords($user_task_row['status']);
         $users_name = ucwords($user_task_row['firstname'] . " " . $user_task_row['lastname']);
@@ -397,7 +399,7 @@ SCOUTREVIEW;
             $user_id = $_SESSION['userSession'];
         }
         $event_list = $this->runQuery("SELECT * from user_events
-                                              WHERE user_id = :user_id");
+                                            WHERE user_id = :user_id");
         $event_list->execute(array(":user_id"=>$user_id));
         $return_list = array();
         while ($event_row=$event_list->fetch(PDO::FETCH_ASSOC)){
@@ -408,7 +410,8 @@ SCOUTREVIEW;
 
     public function generate_event($event_row){
         $event_type = $event_row["event_type"];
-        $event_description = $event_row["event_description"];
+        $event_description = htmlentities($event_row["event_description"], ENT_QUOTES);
+        $event_description = preg_replace( "/\r|\n/", "<br>", $event_description);
         $event_date = $event_row["event_date"];
         return <<< EVENT
 {
@@ -418,6 +421,31 @@ SCOUTREVIEW;
             }
 EVENT;
     }
+
+    public function get_upcoming_events($masterId, $limit=false){
+        if (!empty($masterId)){
+            $user_id = $masterId;
+        }
+        else {
+            $user_id = $_SESSION['userSession'];
+        }
+        if (empty($limit)){
+            $limit = 5;
+        }
+
+        $event_list = $this->runQuery("SELECT * from user_events
+                                            WHERE user_id = :user_id
+                                            AND DATE(event_date) >= DATE(NOW())
+                                            ORDER BY DATE(event_date) ASC 
+                                            limit ". $limit);
+        $event_list->execute(array(":user_id"=>$user_id));
+        $return_list = array();
+        while ($event_row=$event_list->fetch(PDO::FETCH_ASSOC)){
+            array_push($return_list, $event_row);
+        }
+        return $return_list;
+    }
+
 
     public function add_new_event($event_date, $even_type, $event_description){
         $event_exists = $this->runQuery("SELECT * from user_events
