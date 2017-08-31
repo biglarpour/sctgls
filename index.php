@@ -40,8 +40,10 @@
     <div class="hero-wrapper" >
         <section id="main" class="clearfix">
                     <article id="login" class="grid_12 default">
-                        <h1 class="hero-msg-1">Let us help you</h1>
-                        <h1 class="hero-msg-2">advance your organization</h1>
+                        <div class="hero-msg">
+                            <h1 class="hero-msg-1">Let us help you</h1>
+                            <h1 class="hero-msg-2">advance your organization</h1>
+                        </div>
                         <div id="log-in">
                             <?php echo $LOGIN_HTML; ?>
                         </div>

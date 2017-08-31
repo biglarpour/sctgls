@@ -69,7 +69,7 @@ li {
     display: none;
 }
 
-header{ 
+header{
 	padding:15px 0;
 }
 #banner{ 
@@ -578,17 +578,17 @@ a.buttonlink:hover{
 LARGER MOBILE DEVICES
 This is for mobile devices with a bit larger screens.
 */
-@media only screen and (min-width: 481px) {
+/*@media only screen and (min-width: 481px) {
     .hero-wrapper .hero-img {
         display: block;
     }
     #banner{
         float:left;
         text-align:left;
-        margin-bottom:-20px;/*this depends on the height of the logo*/
+        margin-bottom:-20px;
     }
-    .menu-toggle{/*make menu float right, instead of sitting under the logo*/
-        margin-top:10px; /*this depends on the height of the logo*/
+    .menu-toggle{      #make menu float right, instead of sitting under the logo
+        margin-top:10px; #this depends on the height of the logo
         float:right;
     }
 
@@ -605,6 +605,7 @@ This is for mobile devices with a bit larger screens.
     }
 
 }
+*/
 
 /*
 TABLET & SMALLER LAPTOPS
@@ -612,7 +613,17 @@ The average viewing window and preferred media query for those is 768px.
 But I think that some more breathing space is good:)
 */
 @media only screen and (min-width: 920px) {
-
+    .hero-wrapper .hero-img {
+        display: block;
+    }
+    .hero-msg-1, .hero-msg-2 {
+        display: block;
+        font-size: 21px
+    }
+    .hero-msg-2 {
+        top: 8%;
+        left: 10%;
+    }
     .wrapper{
         max-width: 1200px;
     }
@@ -641,10 +652,9 @@ But I think that some more breathing space is good:)
         font-size: 38px
     }
     .hero-msg-1 {
-        top: 5%;
     }
     .hero-msg-2 {
-        top: 12%;
+        top: 50px;
         left: 10%;
     }
 
